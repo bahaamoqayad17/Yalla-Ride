@@ -1,15 +1,48 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import localFont from "next/font/local";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const myFont = localFont({
+  src: [
+    {
+      path: "../public/fonts/BricolageGrotesque-Bold.ttf",
+      style: "swap",
+      weight: "700",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-Regular.ttf",
+      style: "normal",
+      weight: "400",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-Medium.ttf",
+      style: "normal",
+      weight: "500",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-SemiBold.ttf",
+      style: "normal",
+      weight: "600",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-Light.ttf",
+      style: "normal",
+      weight: "300",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-ExtraBold.ttf",
+      style: "normal",
+      weight: "800",
+    },
+    {
+      path: "../public/fonts/BricolageGrotesque-ExtraLight.ttf",
+      style: "normal",
+      weight: "200",
+    },
+  ],
+  variable: "--font-bricolage",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +57,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${myFont.className} antialiased`}>
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
