@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Navbar from "./Navbar";
 import ReservationSearch from "./ReservationSearch";
+import Carousel from "./Carousel";
 
 export default function Hero() {
   return (
@@ -86,6 +87,8 @@ export default function Hero() {
 
         {/* Bottom Section - Car Rental Search Interface */}
         <ReservationSearch />
+
+        <Carousel />
       </div>
     </header>
   );

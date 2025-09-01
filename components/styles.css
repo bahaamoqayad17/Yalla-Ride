@@ -1,0 +1,13 @@
+.mySwiper .swiper-slide {
+  width: auto;
+  min-width: 200px;
+}
+
+.mySwiper .swiper-slide-active {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.mySwiper .swiper-slide {
+  transition: transform 0.3s ease;
+}

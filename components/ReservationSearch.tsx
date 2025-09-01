@@ -19,7 +19,12 @@ export default function ReservationSearch() {
     <div className="relative max-w-6xl mx-auto mb-8">
       {/* Gradient Border Container */}
       <div className="relative bg-transparent rounded-2xl">
-        <div className="bg-slate-800/90 backdrop-blur-sm rounded-2xl p-4">
+        <div
+          className="backdrop-blur-sm rounded-2xl p-4"
+          style={{
+            backgroundColor: "#00091D",
+          }}
+        >
           <div className="flex flex-wrap items-center gap-4">
             {/* Pickup Location */}
             <div className="flex items-center space-x-2 bg-slate-700/50 rounded-lg p-3 border border-slate-600/50 flex-1 min-w-[200px]">
