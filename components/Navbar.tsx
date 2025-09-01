@@ -35,7 +35,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             <div
-              className="bg-slate-800/50 backdrop-blur-sm rounded-lg px-6 py-2"
+              className="bg-slate-800/50 backdrop-blur-sm rounded-lg px-7 py-4"
               style={{
                 backgroundImage: "url(/nav-bg.svg)",
                 backgroundSize: "cover",

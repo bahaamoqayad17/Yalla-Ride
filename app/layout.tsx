@@ -58,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${myFont.className} antialiased`}>
-        <Navbar />
+        {/* <Navbar /> */}
         {children}
         <Footer />
       </body>
