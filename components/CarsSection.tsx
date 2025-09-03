@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Car } from "lucide-react";
 import CarCard from "./CarCard";
-import CarHeader from "./CarHeader";
+import CarHeaderIcon from "./CarHeaderIcon";
 import { Button } from "./ui/button";
 
 const carCategories = [
@@ -130,7 +129,7 @@ export default function CarsSection() {
         {/* Header Section */}
         <div className="text-center mb-12">
           <div className="flex justify-center">
-            <CarHeader />
+            <CarHeaderIcon />
           </div>
 
           <h2 className="text-4xl md:text-5xl font-bold mb-4">

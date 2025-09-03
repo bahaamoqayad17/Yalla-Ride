@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CarHeader() {
+export default function CarHeaderIcon() {
   return (
     <svg
       width="108"
