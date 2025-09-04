@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import CarCard from "./CarCard";
-import CarHeaderIcon from "./CarHeaderIcon";
+import CarHeaderIcon from "@/icons/CarHeaderIcon";
 import { Button } from "./ui/button";
 
 const carCategories = [

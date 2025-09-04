@@ -102,7 +102,7 @@ export default function Faq() {
                   value={item.id}
                   className="bg-slate-900/50 rounded-xl border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-300"
                 >
-                  <AccordionTrigger className="px-6 py-4 text-white hover:text-[#01E0D7] transition-colors duration-300">
+                  <AccordionTrigger className="px-8 py-6 text-white hover:text-[#01E0D7] transition-colors duration-300">
                     <span className="text-left font-medium">
                       {item.question}
                     </span>
