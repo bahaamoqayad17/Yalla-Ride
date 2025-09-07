@@ -5,6 +5,7 @@ import Image from "next/image";
 import CarCard from "./CarCard";
 import CarHeaderIcon from "@/icons/CarHeaderIcon";
 import { Button } from "./ui/button";
+import ReservationSearch from "./ReservationSearch";
 
 const carCategories = [
   { id: 1, name: "Economy Cars", count: 14, image: "/category-car.png" },
@@ -120,7 +121,7 @@ const cars = [
   },
 ];
 
-export default function CarsSection() {
+export default function CarsSection({ showSearch = false }) {
   const [selectedCategory, setSelectedCategory] = useState(3); // Default to 3rd card as shown in image
 
   return (
@@ -142,6 +143,8 @@ export default function CarsSection() {
             Wide range of cars at the best prices
           </p>
         </div>
+
+        {showSearch && <ReservationSearch />}
 
         {/* Car Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">

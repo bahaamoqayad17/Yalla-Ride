@@ -9,12 +9,12 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigationItems = [
-    "Catalog",
-    "Feature",
-    "Steps",
-    "FAQ",
-    "Reviews",
-    "Contact",
+    { name: "Catalog", href: "catalog" },
+    { name: "Feature", href: "#Feature" },
+    { name: "Steps", href: "#Steps" },
+    { name: "FAQ", href: "#FAQ" },
+    { name: "Reviews", href: "#Reviews" },
+    { name: "Contact", href: "#Contact" },
   ];
 
   return (
@@ -47,10 +47,10 @@ export default function Navbar() {
                 {navigationItems.map((item, index) => (
                   <a
                     key={index}
-                    href={`#${item.toLowerCase()}`}
+                    href={`/${item.href}`}
                     className="text-white/90 hover:text-white transition-colors duration-200 text-sm font-medium cursor-pointer"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 ))}
               </div>
@@ -92,11 +92,11 @@ export default function Navbar() {
               {navigationItems.map((item, index) => (
                 <a
                   key={index}
-                  href={`#${item.toLowerCase()}`}
+                  href={`#${item.href}`}
                   className="block px-3 py-2 text-white/90 hover:text-white hover:bg-slate-700/50 rounded-md transition-colors duration-200 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item}
+                  {item.name}
                 </a>
               ))}
               <div className="pt-2">
