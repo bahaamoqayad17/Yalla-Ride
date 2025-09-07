@@ -1,11 +1,12 @@
 import CarsSection from "@/components/CarsSection";
 import Faq from "@/components/Faq";
-import ReservationSearch from "@/components/ReservationSearch";
+import Navbar from "@/components/Navbar";
 import React from "react";
 
 export default function Catalog() {
   return (
     <>
+      {/* <Navbar /> */}
       <CarsSection showSearch={true} />
       <Faq />
     </>

@@ -60,7 +60,7 @@ export default function RootLayout({
       <body className={`${myFont.className} antialiased`}>
         {/* <Navbar /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

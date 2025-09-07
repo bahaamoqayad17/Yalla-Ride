@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const router = useRouter();
   const navigationItems = [
     { name: "Catalog", href: "catalog" },
     { name: "Feature", href: "#Feature" },
@@ -22,7 +23,10 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <div className="flex items-center">
+          <div
+            className="flex items-center cursor-pointer"
+            onClick={() => router.push("/")}
+          >
             <Image
               src="/logo.svg"
               alt="Yalla Ride Logo"
