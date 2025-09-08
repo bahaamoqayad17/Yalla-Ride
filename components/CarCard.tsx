@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 interface CarCardProps {
   car: {
@@ -25,8 +26,12 @@ interface CarCardProps {
 }
 
 export default function CarCard({ car }: CarCardProps) {
+  const router = useRouter();
   return (
-    <div className="bg-[#00091D] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
+    <div
+      className="bg-[#00091D] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
+      onClick={() => router.push(`/${car.id}`)}
+    >
       {/* Car Image Section */}
       <div className="relative h-80 bg-gradient-to-br from-slate-100 to-slate-200">
         <Image
