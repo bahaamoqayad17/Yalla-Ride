@@ -5,6 +5,8 @@ import ReservationCard from "@/components/ReservationCard";
 
 export default function Customer() {
   const [activeTab, setActiveTab] = useState("My Booking");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <div className="container w-full px-4 sm:px-6 lg:px-8">
@@ -205,12 +207,208 @@ export default function Customer() {
 
         {activeTab === "Personal Info" && (
           <div className="bg-slate-900/50 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
-              Personal Information
-            </h2>
-            <p className="text-gray-300 text-lg">
-              Manage your personal details and account settings here.
-            </p>
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+              {/* Left Section - Profile Picture */}
+              <div className="flex flex-col items-center lg:items-start">
+                <div className="relative">
+                  {/* Profile Picture Container with Gradient Border */}
+                  <div className="relative w-100 h-100 rounded-2xl overflow-hidden">
+                    <div
+                      className="absolute inset-0 rounded-2xl p-1"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #00E0D7 0%, #0136FB 50%, #8B5CF6 100%)",
+                      }}
+                    >
+                      <div className="w-full h-full bg-slate-800 rounded-2xl flex items-center justify-center">
+                        <Image
+                          src="/avatar.png"
+                          alt="Profile Picture"
+                          width={480}
+                          height={280}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Upload Button */}
+                  <button
+                    className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-colors cursor-pointer"
+                    style={{
+                      width: "70px",
+                      height: "40px",
+                      borderRadius: "30px 30px 0 0",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      paddingTop: "8px",
+                    }}
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Section - Forms */}
+              <div className="flex-1 space-y-10">
+                {/* Personal Info Section */}
+                <div>
+                  <h3 className="text-3xl font-bold mb-4">
+                    <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
+                      Personal Info
+                    </span>
+                  </h3>
+                  <p className="text-white text-lg mb-8">
+                    Edit Your Profile Infor Username, Password. Etc
+                  </p>
+
+                  <div className="space-y-6 p-6 bg-[#00091D]">
+                    {/* First Row - First Name and Last Name */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="First Name"
+                          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="Last Name"
+                          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Second Row - Email and Phone Number */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <input
+                          type="email"
+                          placeholder="Email"
+                          className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                        />
+                      </div>
+                      <div className="relative">
+                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
+                          +966
+                        </div>
+                        <input
+                          type="tel"
+                          placeholder="Phone Number"
+                          className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-16 pr-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Update Info Button */}
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-16 rounded-xl transition-colors text-lg cursor-pointer">
+                      Update Info
+                    </button>
+                  </div>
+                </div>
+
+                {/* Change Password Section */}
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8">
+                    Change My Password
+                  </h3>
+
+                  <div className="space-y-6 bg-[#00091D] p-6">
+                    <div className="relative">
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        placeholder="New Password"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-4 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                      />
+                      <button
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer"
+                      >
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          {showNewPassword ? (
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          ) : (
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                            />
+                          )}
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm My Password"
+                        className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-4 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors text-lg"
+                      />
+                      <button
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer"
+                      >
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          {showConfirmPassword ? (
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          ) : (
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                            />
+                          )}
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Save Button */}
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-16 rounded-xl transition-colors text-lg cursor-pointer">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
