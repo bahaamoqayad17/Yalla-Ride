@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import WhyUsIcon from "./WhyUsIcon";
+// import WhyUsIcon from "./WhyUsIcon";
 
 const leftColumnFeatures = [
   {
@@ -53,7 +53,7 @@ const rightColumnFeatures = [
 
 export default function WhyUs() {
   return (
-    <div className="w-full py-16 bg-black">
+    <div className="w-full py-16 bg-black pt-32 md:pt-16">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">

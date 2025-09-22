@@ -19,7 +19,7 @@ export default function Hero() {
       {/* Background Pattern */}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center py-20">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center py-20">
           {/* Left Section - Main Heading */}
           <div className="space-y-6 text-center lg:text-left">
             <div className="space-y-4">
@@ -69,9 +69,9 @@ export default function Hero() {
 
         {/* Center Section - Car Image with Overlay */}
         <div className="relative flex justify-center -mt-20">
-          <div className="relative w-full">
+          <div className="relative w-full my-5 md:my-0">
             {/* Car Image with Overlay */}
-            <div className="relative w-full h-92">
+            <div className="relative w-full h-30 md:h-92">
               <Image
                 src="/car.png"
                 alt="Luxury Sports Car"

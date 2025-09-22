@@ -125,7 +125,7 @@ export default function CarsSection({ showSearch = false }) {
   const [selectedCategory, setSelectedCategory] = useState(3); // Default to 3rd card as shown in image
 
   return (
-    <div className="w-full py-16 bg-gradient-to-b from-black via-slate-900 to-black">
+    <div className="w-full bg-gradient-to-b from-black via-slate-900 to-black pb-86 pt-0 md:py-16">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-12">

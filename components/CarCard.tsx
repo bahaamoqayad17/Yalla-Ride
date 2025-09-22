@@ -66,7 +66,7 @@ export default function CarCard({ car }: CarCardProps) {
         </div>
 
         {/* Specifications and Pricing */}
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center md:items-start">
           {/* Left Side - Specifications */}
           <div className="flex-1 space-y-3">
             {/* Mileage */}

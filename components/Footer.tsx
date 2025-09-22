@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
 
           {/* Wavy Separator Line */}
-          <div className="w-full h-12 mb-0 mx-auto relative">
+          <div className="w-full h-12 mb-0 mx-auto relative hidden md:block">
             <Image
               src="/footer-top.png"
               alt="Wavy Separator"
@@ -54,8 +54,8 @@ export default function Footer() {
       </div>
 
       {/* Mid-Section - Navigation, CTA, and Social Media */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-around">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:py-8">
+        <div className="flex md:flex-row flex-col gap-8 md:gap-0 items-center justify-around">
           {/* Left Column - Pages */}
           <div className="text-center lg:text-left">
             <h3 className="text-lg font-bold text-white mb-4">Pages</h3>
