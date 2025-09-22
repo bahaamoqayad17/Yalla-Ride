@@ -2,9 +2,19 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, X, MapPin, Calendar, Clock, User, Fuel, Baby, Wrench } from "lucide-react";
+import {
+  Check,
+  X,
+  MapPin,
+  Calendar,
+  Clock,
+  User,
+  Fuel,
+  Baby,
+  Wrench,
+} from "lucide-react";
 
-export default function PackagesStep() {
+export default function PackagesStep({ setStep }) {
   const [selectedProtection, setSelectedProtection] = useState("minimum");
   const [selectedAddOns, setSelectedAddOns] = useState(["refuelling"]);
 
@@ -14,17 +24,14 @@ export default function PackagesStep() {
       name: "Minimum Protection",
       price: "included",
       features: {
-        included: [
-          "this is example here",
-          "this is example here"
-        ],
+        included: ["this is example here", "this is example here"],
         excluded: [
           "this is example here",
           "this is example here",
           "this is example here",
-          "this is example here"
-        ]
-      }
+          "this is example here",
+        ],
+      },
     },
     {
       id: "standard",
@@ -35,13 +42,10 @@ export default function PackagesStep() {
           "this is example here",
           "this is example here",
           "this is example here",
-          "this is example here"
-        ],
-        excluded: [
           "this is example here",
-          "this is example here"
-        ]
-      }
+        ],
+        excluded: ["this is example here", "this is example here"],
+      },
     },
     {
       id: "maximum",
@@ -54,11 +58,11 @@ export default function PackagesStep() {
           "this is example here",
           "this is example here",
           "this is example here",
-          "this is example here"
+          "this is example here",
         ],
-        excluded: []
-      }
-    }
+        excluded: [],
+      },
+    },
   ];
 
   const addOns = [
@@ -67,29 +71,29 @@ export default function PackagesStep() {
       name: "Additional Driver",
       description: "Maximum of €2000 out-of-pocket per damage event.",
       price: "45$/day",
-      icon: User
+      icon: User,
     },
     {
       id: "refuelling",
       name: "Refuelling Service",
       description: "Maximum of €2000 out-of-pocket per damage event.",
       price: "45$/day",
-      icon: Fuel
+      icon: Fuel,
     },
     {
       id: "baby-seat",
       name: "Baby Seat",
       description: "Maximum of €2000 out-of-pocket per damage event.",
       price: "45$/day",
-      icon: Baby
+      icon: Baby,
     },
     {
       id: "roadside",
       name: "Roadside Protection",
       description: "Maximum of €2000 out-of-pocket per damage event.",
       price: "45$/day",
-      icon: Wrench
-    }
+      icon: Wrench,
+    },
   ];
 
   const handleProtectionChange = (protectionId: string) => {
@@ -97,9 +101,9 @@ export default function PackagesStep() {
   };
 
   const handleAddOnChange = (addOnId: string) => {
-    setSelectedAddOns(prev => 
-      prev.includes(addOnId) 
-        ? prev.filter(id => id !== addOnId)
+    setSelectedAddOns((prev) =>
+      prev.includes(addOnId)
+        ? prev.filter((id) => id !== addOnId)
         : [...prev, addOnId]
     );
   };
@@ -110,9 +114,9 @@ export default function PackagesStep() {
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-400 mb-8">
           <span className="hover:text-white">Home</span>
-          <span className="mx-2">></span>
+          <span className="mx-2">{" > "}</span>
           <span className="hover:text-white">Car Details</span>
-          <span className="mx-2">></span>
+          <span className="mx-2">{" > "}</span>
           <span className="text-[#01E0D7]">Protection Packages</span>
         </nav>
 
@@ -124,7 +128,7 @@ export default function PackagesStep() {
               <h2 className="text-3xl font-bold text-[#01E0D7] mb-6">
                 2/3 Protection Packages
               </h2>
-              
+
               <div className="space-y-4">
                 {protectionPackages.map((pkg) => (
                   <div
@@ -138,21 +142,29 @@ export default function PackagesStep() {
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-4">
-                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                          selectedProtection === pkg.id
-                            ? "border-[#01E0D7] bg-[#01E0D7]"
-                            : "border-slate-400"
-                        }`}>
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                            selectedProtection === pkg.id
+                              ? "border-[#01E0D7] bg-[#01E0D7]"
+                              : "border-slate-400"
+                          }`}
+                        >
                           {selectedProtection === pkg.id && (
                             <Check className="w-4 h-4 text-white" />
                           )}
                         </div>
-                        <h3 className="text-xl font-semibold text-white">{pkg.name}</h3>
+                        <h3 className="text-xl font-semibold text-white">
+                          {pkg.name}
+                        </h3>
                       </div>
                       <div className="text-right">
-                        <span className={`text-lg font-bold ${
-                          pkg.price === "included" ? "text-[#01E0D7]" : "text-white"
-                        }`}>
+                        <span
+                          className={`text-lg font-bold ${
+                            pkg.price === "included"
+                              ? "text-[#01E0D7]"
+                              : "text-white"
+                          }`}
+                        >
                           {pkg.price}
                         </span>
                       </div>
@@ -161,15 +173,25 @@ export default function PackagesStep() {
                     {/* Features */}
                     <div className="space-y-2">
                       {pkg.features.included.map((feature, index) => (
-                        <div key={index} className="flex items-center space-x-2">
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2"
+                        >
                           <Check className="w-4 h-4 text-green-500" />
-                          <span className="text-sm text-gray-300">{feature}</span>
+                          <span className="text-sm text-gray-300">
+                            {feature}
+                          </span>
                         </div>
                       ))}
                       {pkg.features.excluded.map((feature, index) => (
-                        <div key={index} className="flex items-center space-x-2">
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2"
+                        >
                           <X className="w-4 h-4 text-red-500" />
-                          <span className="text-sm text-gray-300">{feature}</span>
+                          <span className="text-sm text-gray-300">
+                            {feature}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -183,12 +205,12 @@ export default function PackagesStep() {
               <h2 className="text-2xl font-bold text-[#01E0D7] mb-6">
                 Which Add Ons Do You Need?
               </h2>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {addOns.map((addOn) => {
                   const IconComponent = addOn.icon;
                   const isSelected = selectedAddOns.includes(addOn.id);
-                  
+
                   return (
                     <div
                       key={addOn.id}
@@ -200,26 +222,28 @@ export default function PackagesStep() {
                       onClick={() => handleAddOnChange(addOn.id)}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                          isSelected
-                            ? "border-[#01E0D7] bg-[#01E0D7]"
-                            : "border-slate-400"
-                        }`}>
+                        <div
+                          className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                            isSelected
+                              ? "border-[#01E0D7] bg-[#01E0D7]"
+                              : "border-slate-400"
+                          }`}
+                        >
                           {isSelected && (
                             <Check className="w-3 h-3 text-white" />
                           )}
                         </div>
                         <IconComponent className="w-6 h-6 text-gray-400" />
                       </div>
-                      
+
                       <h3 className="text-lg font-semibold text-white mb-2">
                         {addOn.name}
                       </h3>
-                      
+
                       <p className="text-sm text-gray-400 mb-3">
                         {addOn.description}
                       </p>
-                      
+
                       <div className="text-right">
                         <span className="text-lg font-bold text-[#01E0D7]">
                           {addOn.price}
@@ -232,7 +256,10 @@ export default function PackagesStep() {
             </div>
 
             {/* Checkout Button */}
-            <Button className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold py-4 text-lg rounded-lg">
+            <Button
+              className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold py-4 text-lg rounded-lg"
+              onClick={() => setStep(3)}
+            >
               Checkout
             </Button>
           </div>
@@ -242,7 +269,7 @@ export default function PackagesStep() {
             <h2 className="text-2xl font-bold text-[#0136FB] mb-6">
               Booking Details
             </h2>
-            
+
             {/* Pickup and Return Fields */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
@@ -252,7 +279,7 @@ export default function PackagesStep() {
                   <span className="text-white text-sm">Dubai</span>
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-2">date</label>
                 <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3">
@@ -272,7 +299,7 @@ export default function PackagesStep() {
                   <span className="text-white text-sm">Dubai</span>
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium mb-2">date</label>
                 <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3">
@@ -294,8 +321,8 @@ export default function PackagesStep() {
                 </div>
                 <p className="text-sm text-gray-300">
                   You have booked for{" "}
-                  <span className="text-[#01E0D7] font-medium">21 days</span>
-                  , from Wednesday, January 12 until February 1
+                  <span className="text-[#01E0D7] font-medium">21 days</span>,
+                  from Wednesday, January 12 until February 1
                 </p>
               </div>
             </div>

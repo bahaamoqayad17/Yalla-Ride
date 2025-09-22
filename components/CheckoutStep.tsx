@@ -3,24 +3,32 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Check, MapPin, Calendar, Clock, Car, Upload, Shield } from "lucide-react";
+import {
+  Check,
+  MapPin,
+  Calendar,
+  Clock,
+  Car,
+  Upload,
+  Shield,
+} from "lucide-react";
 import Image from "next/image";
 
 export default function CheckoutStep() {
   const [verificationType, setVerificationType] = useState("visitor");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-    return (
+  return (
     <div className="min-h-screen bg-black text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-400 mb-8">
           <span className="hover:text-white">Home</span>
-          <span className="mx-2">></span>
+          <span className="mx-2">{" > "}</span>
           <span className="hover:text-white">Car Details</span>
-          <span className="mx-2">></span>
+          <span className="mx-2">{" > "}</span>
           <span className="hover:text-white">Protection Packages</span>
-          <span className="mx-2">></span>
+          <span className="mx-2">{" > "}</span>
           <span className="text-[#01E0D7]">Checkout!</span>
         </nav>
 
@@ -29,10 +37,12 @@ export default function CheckoutStep() {
           <div className="space-y-8">
             {/* Personal Info Section */}
             <div>
-              <h2 className="text-2xl font-bold text-[#0136FB] mb-6">
-                3/3 Personal Info
-              </h2>
-              
+              <h1 className="font-bold mb-4 text-2xl">
+                <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
+                  3/3 Personal Info
+                </span>
+              </h1>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Input
@@ -67,10 +77,12 @@ export default function CheckoutStep() {
 
             {/* Payment Info Section */}
             <div>
-              <h2 className="text-2xl font-bold text-[#0136FB] mb-6">
-                Payment Info
-              </h2>
-              
+              <h1 className="font-bold mb-4 text-2xl">
+                <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
+                  Payment Info
+                </span>
+              </h1>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <div className="relative">
@@ -115,13 +127,13 @@ export default function CheckoutStep() {
 
             {/* Verification Document Section */}
             <div>
-              <h2 className="text-2xl font-bold text-[#0136FB] mb-6">
+              <h1 className="font-bold mb-4 text-2xl">
                 Verification Document{" "}
                 <span className="text-sm font-normal text-gray-400">
                   (Optional But Required Before Car Pick-Up)
                 </span>
-              </h2>
-              
+              </h1>
+
               {/* Toggle Buttons */}
               <div className="flex space-x-4 mb-6">
                 <button
@@ -150,8 +162,12 @@ export default function CheckoutStep() {
               <div className="space-y-4">
                 <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center hover:border-slate-500 transition-colors cursor-pointer">
                   <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-white font-medium mb-1">Upload Your Passport Here</p>
-                  <p className="text-gray-400 text-sm">Click to browse or drag and drop</p>
+                  <p className="text-white font-medium mb-1">
+                    Upload Your Passport Here
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    Click to browse or drag and drop
+                  </p>
                   <div className="flex justify-end mt-2">
                     <div className="w-6 h-6 border border-gray-400 rounded flex items-center justify-center">
                       <span className="text-gray-400 text-sm">[</span>
@@ -161,8 +177,12 @@ export default function CheckoutStep() {
 
                 <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center hover:border-slate-500 transition-colors cursor-pointer">
                   <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-white font-medium mb-1">Upload Your Driver's License Here</p>
-                  <p className="text-gray-400 text-sm">Click to browse or drag and drop</p>
+                  <p className="text-white font-medium mb-1">
+                    Upload Your Driver's License Here
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    Click to browse or drag and drop
+                  </p>
                   <div className="flex justify-end mt-2">
                     <div className="w-6 h-6 border border-gray-400 rounded flex items-center justify-center">
                       <span className="text-gray-400 text-sm">[</span>
@@ -187,7 +207,7 @@ export default function CheckoutStep() {
             </div>
 
             {/* Book Now Button */}
-            <Button 
+            <Button
               className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold py-4 text-lg rounded-lg"
               disabled={!agreeToTerms}
             >
@@ -197,10 +217,12 @@ export default function CheckoutStep() {
 
           {/* Right Column - Booking Details */}
           <div>
-            <h2 className="text-2xl font-bold text-[#0136FB] mb-6">
-              Booking Details
-            </h2>
-            
+            <h1 className="font-bold mb-4 text-2xl">
+              <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
+                Booking Details
+              </span>
+            </h1>
+
             {/* Car Card */}
             <div className="bg-slate-800 rounded-lg p-6 mb-6">
               <div className="flex items-center space-x-4">
@@ -208,9 +230,13 @@ export default function CheckoutStep() {
                   <Car className="w-8 h-8 text-black" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">BMW ALPINA B8 Coupe</h3>
+                  <h3 className="text-lg font-semibold text-white">
+                    BMW ALPINA B8 Coupe
+                  </h3>
                   <p className="text-gray-400 text-sm">Automatic • 612 hp</p>
-                  <p className="text-[#01E0D7] text-sm font-medium">You have booked for 21 days</p>
+                  <p className="text-[#01E0D7] text-sm font-medium">
+                    You have booked for 21 days
+                  </p>
                 </div>
               </div>
             </div>
@@ -219,7 +245,9 @@ export default function CheckoutStep() {
             <div className="space-y-6 mb-6">
               {/* Pickup */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Pickup</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">
+                  Pickup
+                </h3>
                 <div className="flex items-start space-x-4">
                   <div className="flex flex-col items-center">
                     <div className="w-8 h-8 bg-[#0136FB] rounded-full flex items-center justify-center">
@@ -228,31 +256,43 @@ export default function CheckoutStep() {
                     <div className="w-0.5 h-12 bg-slate-600 mt-2"></div>
                   </div>
                   <div>
-                    <p className="text-white font-medium">This Is Example Terminal To The Location</p>
-                    <p className="text-gray-400 text-sm">Sat,13.Sep,2025 | 21:00</p>
+                    <p className="text-white font-medium">
+                      This Is Example Terminal To The Location
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      Sat,13.Sep,2025 | 21:00
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Return */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Return</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">
+                  Return
+                </h3>
                 <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-[#0136FB] rounded-full flex items-center justify-center">
                     <Car className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-medium">This Is Example Terminal To The Location</p>
-                    <p className="text-gray-400 text-sm">Sat,13.Sep,2025 | 21:00</p>
+                    <p className="text-white font-medium">
+                      This Is Example Terminal To The Location
+                    </p>
+                    <p className="text-gray-400 text-sm">
+                      Sat,13.Sep,2025 | 21:00
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Booking Details */}
-        <div>
-              <h3 className="text-lg font-semibold text-white mb-4">Booking Details</h3>
-              
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Booking Details
+              </h3>
+
               <div className="space-y-3 mb-6">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start">
@@ -307,13 +347,16 @@ export default function CheckoutStep() {
         <div className="mt-16 text-center">
           <div className="flex items-center justify-center space-x-3 mb-2">
             <Shield className="w-5 h-5 text-[#01E0D7]" />
-            <span className="text-white font-medium">All your data are safe</span>
+            <span className="text-white font-medium">
+              All your data are safe
+            </span>
           </div>
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
-            We are using the most advanced security to provide you the best experience ever.
+            We are using the most advanced security to provide you the best
+            experience ever.
           </p>
         </div>
       </div>
-        </div>
+    </div>
   );
 }
