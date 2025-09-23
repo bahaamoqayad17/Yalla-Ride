@@ -46,7 +46,7 @@ export default function CarCard({ car }: CarCardProps) {
       </div>
 
       {/* Car Details Section */}
-      <div className="bg-slate-900 p-6">
+      <div className="p-6">
         {/* Brand and Model */}
         <div className="flex items-center gap-4 mb-4">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">

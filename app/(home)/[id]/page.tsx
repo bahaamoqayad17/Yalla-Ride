@@ -258,7 +258,7 @@ export default function CarDetails({ params }: { params: { id: string } }) {
                 </h2>
 
                 {/* Description */}
-                <div className="space-y-4 mb-8">
+                <div className="space-y-4 mb-8 bg-[#00091D] p-8 rounded-lg">
                   <p className="text-gray-300 leading-relaxed">
                     {car.description}
                   </p>
@@ -272,60 +272,79 @@ export default function CarDetails({ params }: { params: { id: string } }) {
 
                 {/* Car Specifications Grid */}
                 <div className="grid grid-cols-3 gap-4 mb-8">
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Fuel className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">Engine type</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Fuel className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Engine type</span>
+                      </div>
+                      <p className="text-3xl font-semibold">{car.engineType}</p>
                     </div>
-                    <p className="text-lg font-semibold">{car.engineType}</p>
                   </div>
 
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Gauge className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">Transmission</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Gauge className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">
+                          Transmission
+                        </span>
+                      </div>
+                      <p className="text-2xl font-semibold">
+                        {car.transmission}
+                      </p>
                     </div>
-                    <p className="text-lg font-semibold">{car.transmission}</p>
                   </div>
 
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Users className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">Seats</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Users className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Seats</span>
+                      </div>
+                      <p className="text-3xl font-semibold">{car.seats}</p>
                     </div>
-                    <p className="text-lg font-semibold">{car.seats}</p>
                   </div>
 
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Users className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">Doors</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Users className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Doors</span>
+                      </div>
+                      <p className="text-3xl font-semibold">{car.doors}</p>
                     </div>
-                    <p className="text-lg font-semibold">{car.doors}</p>
                   </div>
 
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Zap className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">Horse power</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Zap className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Horse power</span>
+                      </div>
+                      <p className="text-3xl font-semibold">{car.horsepower}</p>
                     </div>
-                    <p className="text-lg font-semibold">{car.horsepower}</p>
                   </div>
 
-                  <div className="bg-[#0136FB]/20 rounded-lg p-4 border border-[#0136FB]/30">
-                    <div className="flex items-center mb-2">
-                      <Timer className="w-5 h-5 text-[#01E0D7] mr-2" />
-                      <span className="text-sm font-medium">0-100 km/h</span>
+                  <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
+                    <Timer className="w-8 h-8 text-[#01E0D7]" />
+                    <div className="flex flex-col gap-2 items-center">
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">0-100 km/h</span>
+                      </div>
+                      <p className="text-3xl font-semibold">
+                        {car.acceleration}s
+                      </p>
                     </div>
-                    <p className="text-lg font-semibold">{car.acceleration}s</p>
                   </div>
                 </div>
 
                 {/* Loyalty Cashback Sections */}
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                    <div>
+                {/* <div className="space-y-4"> */}
+                <div className="flex bg-[#00091D] p-6 rounded-lg gap-4 mb-4 flex-1 w-full">
+                  <CheckCircle className="w-6 h-6 text-[#01E0D7] flex-shrink-0" />
+                  <div className="flex justify-between">
+                    <div className="flex flex-col gap-2">
                       <p className="text-white font-medium mb-1">
                         Loyalty Cashback
                       </p>
@@ -333,15 +352,18 @@ export default function CarDetails({ params }: { params: { id: string } }) {
                         Added to your loyalty account, as a reward for driving
                         without polluting
                       </p>
-                      <span className="text-[#01E0D7] text-sm font-medium">
-                        Included
-                      </span>
                     </div>
-                  </div>
 
-                  <div className="flex items-start">
-                    <CheckCircle className="w-6 h-6 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                    <div>
+                    <p className="text-[#01E0D7] text-sm font-medium">
+                      Included
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex bg-[#00091D] p-6 rounded-lg gap-4 mb-4 flex-1 w-full">
+                  <CheckCircle className="w-6 h-6 text-[#01E0D7] flex-shrink-0" />
+                  <div className="flex justify-between">
+                    <div className="flex flex-col gap-2">
                       <p className="text-white font-medium mb-1">
                         Loyalty Cashback
                       </p>
@@ -349,13 +371,15 @@ export default function CarDetails({ params }: { params: { id: string } }) {
                         Added to your loyalty account, as a reward for driving
                         without polluting
                       </p>
-                      <span className="text-[#01E0D7] text-sm font-medium">
-                        Included
-                      </span>
                     </div>
+
+                    <p className="text-[#01E0D7] text-sm font-medium">
+                      Included
+                    </p>
                   </div>
                 </div>
               </div>
+              {/* </div> */}
 
               {/* Right Column - Booking Details */}
               <div>
