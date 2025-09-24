@@ -199,7 +199,7 @@ export default function CarDetails({ params }: { params: { id: string } }) {
         {/* Header Section */}
         {step === 1 && (
           <>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex md:flex-row flex-col gap-4 md:gap-0 justify-between items-center mb-8">
               <div>
                 {/* Breadcrumb */}
                 <nav className="text-lg text-gray-400 mb-4">
@@ -271,7 +271,7 @@ export default function CarDetails({ params }: { params: { id: string } }) {
                 </div>
 
                 {/* Car Specifications Grid */}
-                <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                   <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
                     <Fuel className="w-8 h-8 text-[#01E0D7]" />
                     <div className="flex flex-col gap-2 items-center">
@@ -290,7 +290,7 @@ export default function CarDetails({ params }: { params: { id: string } }) {
                           Transmission
                         </span>
                       </div>
-                      <p className="text-2xl font-semibold">
+                      <p className="text-lg md:text-2xl font-semibold">
                         {car.transmission}
                       </p>
                     </div>

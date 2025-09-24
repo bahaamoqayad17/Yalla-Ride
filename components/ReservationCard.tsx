@@ -97,7 +97,7 @@ export default function ReservationCard({
             </div>
             <div className="flex gap-2 items-center">
               <p className="text-sm text-gray-400">Colors</p>
-              <div className="flex space-x-2 mt-1">
+              <div className="flex space-x-2">
                 {colors.map((color, index) => (
                   <div
                     key={index}

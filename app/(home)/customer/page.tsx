@@ -56,7 +56,7 @@ export default function Customer() {
 
       {/* Tab Navigation */}
       <div className="mt-8 sm:mt-12 lg:mt-16">
-        <div className="bg-slate-800/50 rounded-xl sm:rounded-2xl p-1 flex flex-col sm:flex-row">
+        <div className="bg-slate-800/50 rounded-xl sm:rounded-2xl p-1 flex">
           {/* My Booking Tab */}
           <button
             onClick={() => setActiveTab("My Booking")}
@@ -79,12 +79,14 @@ export default function Customer() {
                 }}
               >
                 <div className="w-full h-full bg-slate-900 rounded-lg sm:rounded-xl flex items-center justify-center">
-                  <span className="font-black text-2xl">My Booking</span>
+                  <span className="font-black text-lg sm:text-2xl">
+                    My Booking
+                  </span>
                 </div>
               </div>
             )}
             {activeTab !== "My Booking" && (
-              <span className="font-black text-2xl">My Booking</span>
+              <span className="font-black text-lg sm:text-2xl">My Booking</span>
             )}
           </button>
 
@@ -110,12 +112,16 @@ export default function Customer() {
                 }}
               >
                 <div className="w-full h-full bg-slate-900 rounded-lg sm:rounded-xl flex items-center justify-center">
-                  <span className="font-black text-2xl">Personal Info</span>
+                  <span className="font-black text-lg sm:text-2xl">
+                    Personal Info
+                  </span>
                 </div>
               </div>
             )}
             {activeTab !== "Personal Info" && (
-              <span className="font-black text-2xl">Personal Info</span>
+              <span className="font-black text-lg sm:text-2xl">
+                Personal Info
+              </span>
             )}
           </button>
         </div>
@@ -212,7 +218,7 @@ export default function Customer() {
               <div className="flex flex-col items-center lg:items-start">
                 <div className="relative">
                   {/* Profile Picture Container with Gradient Border */}
-                  <div className="relative w-100 h-100 rounded-2xl overflow-hidden">
+                  <div className="relative w-80 h-80 md:w-100 md:h-100 rounded-2xl overflow-hidden">
                     <div
                       className="absolute inset-0 rounded-2xl p-1"
                       style={{

@@ -53,7 +53,7 @@ const rightColumnFeatures = [
 
 export default function WhyUs() {
   return (
-    <div className="w-full py-16 bg-black pt-32 md:pt-16">
+    <div className="w-full py-16 bg-black pt-90 md:pt-16">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">
