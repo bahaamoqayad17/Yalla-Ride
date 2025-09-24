@@ -1,9 +1,37 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
   const pagesLinks = [
     { name: "HOME", href: "#home" },
     { name: "CATALOG", href: "#catalog" },
@@ -25,12 +53,18 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="text-white pt-4 md:pt-20">
+    <footer ref={sectionRef} className="text-white pt-4 md:pt-20">
       {/* Top Section - Logo and Separator */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col items-center space-y-6">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div
+            className={`flex items-center space-x-3 transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <Image
               src="/logo.svg"
               alt="Yalla Ride Logo"
@@ -42,7 +76,13 @@ export default function Footer() {
           </div>
 
           {/* Wavy Separator Line */}
-          <div className="w-full h-12 mb-0 mx-auto relative hidden md:block">
+          <div
+            className={`w-full h-12 mb-0 mx-auto relative hidden md:block transition-all duration-1000 ease-out delay-300 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <Image
               src="/footer-top.png"
               alt="Wavy Separator"
@@ -57,7 +97,13 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:py-8">
         <div className="flex md:flex-row flex-col gap-8 md:gap-0 items-center justify-around">
           {/* Left Column - Pages */}
-          <div className="text-center lg:text-left">
+          <div
+            className={`text-center lg:text-left transition-all duration-1000 ease-out delay-500 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <h3 className="text-lg font-bold text-white mb-4">Pages</h3>
             <ul className="space-y-2">
               {pagesLinks.map((link, index) => (
@@ -74,7 +120,13 @@ export default function Footer() {
           </div>
 
           {/* Center Column - CTA and Social Media */}
-          <div className="text-center space-y-6">
+          <div
+            className={`text-center space-y-6 transition-all duration-1000 ease-out delay-700 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             {/* Call-to-Action */}
             <div className="space-y-2">
               <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
@@ -101,7 +153,13 @@ export default function Footer() {
           </div>
 
           {/* Right Column - Details Pages */}
-          <div className="">
+          <div
+            className={`transition-all duration-1000 ease-out delay-900 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <h3 className="text-lg font-bold text-white mb-4">Details Pages</h3>
             <ul className="space-y-2 flex flex-col items-start">
               {detailsPagesLinks.map((link, index) => (
@@ -123,7 +181,13 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="space-y-4">
           {/* Wavy Separator Line */}
-          <div className="w-full h-12 mx-auto mb-0 relative">
+          <div
+            className={`w-full h-12 mx-auto mb-0 relative transition-all duration-1000 ease-out delay-1100 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <Image
               src="/footer-bottom.png"
               alt="Wavy Separator"
@@ -133,7 +197,13 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="text-center">
+          <div
+            className={`text-center transition-all duration-1000 ease-out delay-1300 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <p className="text-gray-300 text-sm">
               ©Copyright 2026 - All Rights Reserved.
             </p>

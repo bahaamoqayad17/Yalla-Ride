@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import {
@@ -79,8 +79,36 @@ const reviews = [
 ];
 
 export default function Reviews() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div
+      ref={sectionRef}
       className="bg-[#0055FF] text-white py-20 px-4 relative overflow-hidden"
       style={{
         borderRadius: "40px",
@@ -111,21 +139,45 @@ export default function Reviews() {
       <div className="container mx-auto max-w-7xl">
         {/* Customer Reviews Section */}
         <div className="text-center mb-16">
-          <center>
-            <ReviewIcon />
-          </center>
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <div
+            className={`transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
+            <center>
+              <ReviewIcon />
+            </center>
+          </div>
+          <div
+            className={`flex items-center justify-center gap-2 mb-4 transition-all duration-1000 ease-out delay-300 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <h2 className="text-4xl md:text-5xl font-bold text-white">
               Customer Reviews
             </h2>
           </div>
-          <p className="text-[#8B9DC3] text-lg md:text-xl max-w-2xl mx-auto">
+          <p
+            className={`text-[#8B9DC3] text-lg md:text-xl max-w-2xl mx-auto transition-all duration-1000 ease-out delay-500 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             See what our happy customers say about Yalla Ride
           </p>
         </div>
 
         {/* Reviews Carousel */}
-        <div className="mb-20 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-4">
+        <div
+          className={`mb-20 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-4 transition-all duration-1000 ease-out delay-700 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+        >
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={20}
@@ -210,7 +262,13 @@ export default function Reviews() {
         {/* Let's Talk Section */}
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Side - Contact Info */}
-          <div>
+          <div
+            className={`transition-all duration-1000 ease-out delay-900 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <HelpIcon />
             <div className="flex items-center gap-3 mb-2 mt-2">
               <h3 className="text-3xl md:text-4xl font-medium text-white">
@@ -224,12 +282,11 @@ export default function Reviews() {
 
             {/* Contact Buttons */}
             <div className="space-y-4">
-              <Button
-                variant="outline"
-                className="w-full justify-between bg-[#1A1F3A] border-[#2A2F4A] text-white hover:bg-[#2A2F4A] h-16 px-6"
+              <div
+                className="w-full flex justify-between items-center text-white hover:bg-[#2A2F4A] h-16 px-6 rounded-2xl cursor-pointer transition-colors duration-200"
                 style={{
                   background:
-                    "linear-gradient(to right, rgb(253, 253, 253, 0.3) 0%, rgb(255, 255, 255 , 0.22) 100%)",
+                    "linear-gradient(to right, rgb(253, 253, 253, 0.1) 0%, rgb(255, 255, 255 , 0.1) 100%)",
                 }}
               >
                 <div className="flex items-center gap-4">
@@ -244,14 +301,13 @@ export default function Reviews() {
                 <div className="bg-[#00ADE2] rounded-full p-3.5">
                   <ArrowRight />
                 </div>
-              </Button>
+              </div>
 
-              <Button
-                variant="outline"
-                className="w-full justify-between bg-[#1A1F3A] border-[#2A2F4A] text-white hover:bg-[#2A2F4A] h-16 px-6"
+              <div
+                className="w-full flex justify-between items-center text-white hover:bg-[#2A2F4A] h-16 px-6 rounded-2xl cursor-pointer transition-colors duration-200"
                 style={{
                   background:
-                    "linear-gradient(to right, rgb(253, 253, 253, 0.3) 0%, rgb(255, 255, 255 , 0.22) 100%)",
+                    "linear-gradient(to right, rgb(253, 253, 253, 0.1) 0%, rgb(255, 255, 255 , 0.1) 100%)",
                 }}
               >
                 <div className="flex items-center gap-4">
@@ -264,14 +320,13 @@ export default function Reviews() {
                 <div className="bg-[#00ADE2] rounded-full p-3.5">
                   <ArrowRight />
                 </div>
-              </Button>
+              </div>
 
-              <Button
-                variant="outline"
-                className="w-full justify-between bg-[#1A1F3A] border-[#2A2F4A] text-white hover:bg-[#2A2F4A] h-16 px-6"
+              <div
+                className="w-full flex justify-between items-center text-white hover:bg-[#2A2F4A] h-16 px-6 rounded-2xl cursor-pointer transition-colors duration-200"
                 style={{
                   background:
-                    "linear-gradient(to right, rgb(253, 253, 253, 0.3) 0%, rgb(255, 255, 255 , 0.22) 100%)",
+                    "linear-gradient(to right, rgb(253, 253, 253, 0.1) 0%, rgb(255, 255, 255 , 0.1) 100%)",
                 }}
               >
                 <div className="flex items-center gap-4">
@@ -284,12 +339,18 @@ export default function Reviews() {
                 <div className="bg-[#00ADE2] rounded-full p-3.5">
                   <ArrowRight />
                 </div>
-              </Button>
+              </div>
             </div>
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className="">
+          <div
+            className={`transition-all duration-1000 ease-out delay-1100 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

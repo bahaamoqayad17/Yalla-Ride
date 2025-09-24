@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import CarCard from "./CarCard";
 import CarHeaderIcon from "@/icons/CarHeaderIcon";
@@ -123,23 +123,70 @@ const cars = [
 
 export default function CarsSection({ showSearch = false }) {
   const [selectedCategory, setSelectedCategory] = useState(3); // Default to 3rd card as shown in image
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="w-full bg-gradient-to-b from-black via-slate-900 to-black pb-86 pt-0 md:py-16">
+    <div
+      ref={sectionRef}
+      className="w-full bg-gradient-to-b from-black via-slate-900 to-black pb-86 pt-0 md:py-16"
+    >
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <div className="flex justify-center">
+          <div
+            className={`flex justify-center transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <CarHeaderIcon />
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2
+            className={`text-4xl md:text-5xl font-bold mb-4 transition-all duration-1000 ease-out delay-300 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
               Find Your Perfect Rental Car
             </span>
           </h2>
 
-          <p className="text-white text-lg md:text-xl">
+          <p
+            className={`text-white text-lg md:text-xl transition-all duration-1000 ease-out delay-500 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             Wide range of cars at the best prices
           </p>
         </div>
@@ -148,14 +195,19 @@ export default function CarsSection({ showSearch = false }) {
 
         {/* Car Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">
-          {carCategories.map((category) => (
+          {carCategories.map((category, index) => (
             <div
               key={category.id}
-              className={`relative cursor-pointer transition-all duration-300  ${
+              className={`relative cursor-pointer transition-all duration-1000 ease-out ${
                 selectedCategory === category.id
                   ? "transform scale-105"
                   : "hover:scale-102"
+              } ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
               }`}
+              style={{ transitionDelay: `${700 + index * 100}ms` }}
               onClick={() => setSelectedCategory(category.id)}
             >
               <div
@@ -197,12 +249,27 @@ export default function CarsSection({ showSearch = false }) {
 
         {/* Cars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cars.map((car) => (
-            <CarCard key={car.id} car={car} />
+          {cars.map((car, index) => (
+            <div
+              key={car.id}
+              className={`transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+              style={{ transitionDelay: `${1300 + index * 150}ms` }}
+            >
+              <CarCard car={car} />
+            </div>
           ))}
         </div>
 
-        <div className="flex justify-center mt-10">
+        <div
+          className={`flex justify-center mt-10 transition-all duration-1000 ease-out ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+          style={{ transitionDelay: "2200ms" }}
+        >
           <Button
             variant="outline"
             className="scale-150 items-center hover:scale-180 transition-transform duration-200"

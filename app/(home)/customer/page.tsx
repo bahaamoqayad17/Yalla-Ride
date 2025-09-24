@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import ReservationCard from "@/components/ReservationCard";
 
@@ -7,9 +7,35 @@ export default function Customer() {
   const [activeTab, setActiveTab] = useState("My Booking");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="container w-full px-4 sm:px-6 lg:px-8">
+    <div ref={sectionRef} className="container w-full px-4 sm:px-6 lg:px-8">
       <div className="relative rounded-xl overflow-hidden mt-4 sm:mt-6 lg:mt-10">
         {/* Background Image with Gradient Overlay */}
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] xl:h-[70vh]">
@@ -39,12 +65,24 @@ export default function Customer() {
             <div className="px-4 sm:px-6 lg:px-8 w-full">
               <div className="max-w-4xl">
                 {/* Main Title */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+                <h1
+                  className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight transition-all duration-1000 ease-out ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                >
                   My Profile
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl leading-relaxed">
+                <p
+                  className={`text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl leading-relaxed transition-all duration-1000 ease-out delay-300 ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                >
                   Here You Can View Your Bookings And Manage Your Personal
                   Information With Ease
                 </p>
@@ -55,7 +93,11 @@ export default function Customer() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="mt-8 sm:mt-12 lg:mt-16">
+      <div
+        className={`mt-8 sm:mt-12 lg:mt-16 transition-all duration-1000 ease-out delay-500 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+        }`}
+      >
         <div className="bg-slate-800/50 rounded-xl sm:rounded-2xl p-1 flex">
           {/* My Booking Tab */}
           <button
@@ -128,7 +170,11 @@ export default function Customer() {
       </div>
 
       {/* Tab Content */}
-      <div className="mt-8 sm:mt-12 lg:mt-16">
+      <div
+        className={`mt-8 sm:mt-12 lg:mt-16 transition-all duration-1000 ease-out delay-700 ${
+          isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+        }`}
+      >
         {activeTab === "My Booking" && (
           <div className="bg-slate-900/50 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10">
             {/* Header Section */}
@@ -180,7 +226,13 @@ export default function Customer() {
             </div>
 
             {/* Content Area */}
-            <div className="space-y-6">
+            <div
+              className={`space-y-6 transition-all duration-1000 ease-out delay-900 ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
               {/* Reservation Card */}
               <ReservationCard
                 carImage="/car-cover.png"
@@ -215,7 +267,13 @@ export default function Customer() {
           <div className="bg-slate-900/50 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               {/* Left Section - Profile Picture */}
-              <div className="flex flex-col items-center lg:items-start">
+              <div
+                className={`flex flex-col items-center lg:items-start transition-all duration-1000 ease-out delay-900 ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                }`}
+              >
                 <div className="relative">
                   {/* Profile Picture Container with Gradient Border */}
                   <div className="relative w-80 h-80 md:w-100 md:h-100 rounded-2xl overflow-hidden">
@@ -269,7 +327,13 @@ export default function Customer() {
               </div>
 
               {/* Right Section - Forms */}
-              <div className="flex-1 space-y-10">
+              <div
+                className={`flex-1 space-y-10 transition-all duration-1000 ease-out delay-1100 ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                }`}
+              >
                 {/* Personal Info Section */}
                 <div>
                   <h3 className="text-3xl font-bold mb-4">

@@ -44,7 +44,32 @@ const stepsData: StepCard[] = [
 export default function Steps() {
   const [visibleCards, setVisibleCards] = useState<number[]>([1]); // Start with first card visible
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,16 +103,6 @@ export default function Steps() {
           (_, i) => i + 1
         );
 
-        // Debug logging
-        console.log(
-          "Progress:",
-          progress,
-          "Cards to show:",
-          cardsToShow,
-          "Visible cards:",
-          newVisibleCards
-        );
-
         setVisibleCards(newVisibleCards);
       }
     };
@@ -111,19 +126,33 @@ export default function Steps() {
     >
       {/* Fixed Header */}
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-4 z-10">
-        <Image
-          src="/whyusicon.png"
-          alt="Why Us"
-          width={52}
-          height={52}
-          className="mb-4"
-        />
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <div
+          className={`transition-all duration-1000 ease-out ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+        >
+          <Image
+            src="/whyusicon.png"
+            alt="Why Us"
+            width={52}
+            height={52}
+            className="mb-4"
+          />
+        </div>
+        <h2
+          className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ease-out delay-300 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+        >
           <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
             Easy Steps to Book Your Car
           </span>
         </h2>
-        <p className="text-[#999999] text-xl max-w-md text-center mb-12">
+        <p
+          className={`text-[#999999] text-xl max-w-md text-center mb-12 transition-all duration-1000 ease-out delay-500 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+        >
           From choosing your car to returning it renting has never been this
           simple
         </p>

@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Accordion,
@@ -47,12 +49,45 @@ const faqData = [
 ];
 
 export default function Faq() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="w-full py-16 bg-black">
+    <div ref={sectionRef} className="w-full py-16 bg-black">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <div className="flex justify-center">
+          <div
+            className={`flex justify-center transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <Image
               src="/faq-icon.png"
               alt="Why Us"
@@ -62,13 +97,25 @@ export default function Faq() {
             />
           </div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h2
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ease-out delay-300 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
               Frequently Asked Questions
             </span>
           </h2>
 
-          <p className="text-white/70 text-lg md:text-xl mb-8">
+          <p
+            className={`text-white/70 text-lg md:text-xl mb-8 transition-all duration-1000 ease-out delay-500 ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+          >
             Quick Answers to Help You Make the Most of Yalla Ride
           </p>
 
@@ -81,7 +128,13 @@ export default function Faq() {
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Side - Car Image */}
-          <div className="order-2 lg:order-1">
+          <div
+            className={`order-2 lg:order-1 transition-all duration-1000 ease-out delay-700 ${
+              isVisible
+                ? "translate-y-0 opacity-100 scale-100"
+                : "translate-y-8 opacity-0 scale-95"
+            }`}
+          >
             <div className="relative rounded-2xl overflow-hidden border border-[#01E0D7]/20 shadow-lg shadow-[#01E0D7]/10">
               <Image
                 src="/faq.png"
@@ -96,11 +149,16 @@ export default function Faq() {
           {/* Right Side - FAQ Accordion */}
           <div className="order-1 lg:order-2">
             <Accordion type="single" collapsible className="w-full space-y-4">
-              {faqData.map((item) => (
+              {faqData.map((item, index) => (
                 <AccordionItem
                   key={item.id}
                   value={item.id}
-                  className="bg-slate-900/50 rounded-xl border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-300"
+                  className={`bg-slate-900/50 rounded-xl border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-1000 ease-out ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${900 + index * 100}ms` }}
                 >
                   <AccordionTrigger className="px-8 py-6 text-white hover:text-[#01E0D7] transition-colors duration-300">
                     <span className="text-left font-medium">

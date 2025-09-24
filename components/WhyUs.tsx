@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 // import WhyUsIcon from "./WhyUsIcon";
@@ -52,30 +52,83 @@ const rightColumnFeatures = [
 ];
 
 export default function WhyUs() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="w-full py-16 bg-black pt-90 md:pt-16">
+    <div ref={sectionRef} className="w-full py-16 bg-black pt-90 md:pt-16">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">
           <div className="flex-1 mb-6 lg:mb-0">
-            <Image
-              src="/whyusicon.png"
-              alt="Why Us"
-              width={52}
-              height={52}
-              className="mb-4"
-            />
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            <div
+              className={`transition-all duration-1000 ease-out ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
+              <Image
+                src="/whyusicon.png"
+                alt="Why Us"
+                width={52}
+                height={52}
+                className="mb-4"
+              />
+            </div>
+            <h2
+              className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 transition-all duration-1000 ease-out delay-300 ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
               <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
                 What Makes Us Different
               </span>
             </h2>
-            <p className="text-white/70 text-lg md:text-xl">
+            <p
+              className={`text-white/70 text-lg md:text-xl transition-all duration-1000 ease-out delay-500 ${
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
               Flexible plans, great prices, and cars you can trust
             </p>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
+          <div
+            className={`flex justify-center lg:justify-end transition-all duration-1000 ease-out delay-700 ${
+              isVisible
+                ? "translate-y-0 opacity-100 scale-100"
+                : "translate-y-8 opacity-0 scale-95"
+            }`}
+          >
             <Button
               variant="outline"
               className="scale-120 items-center hover:scale-150 transition-transform duration-200"
@@ -90,10 +143,17 @@ export default function WhyUs() {
           {/* Left Column - 8 cols on desktop, 12 cols on mobile */}
           <div className="col-span-12 lg:col-span-8">
             <div className="grid grid-cols-12 gap-6">
-              {leftColumnFeatures.map((feature) => (
+              {leftColumnFeatures.map((feature, index) => (
                 <div
                   key={feature.id}
-                  className={`bg-slate-900/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-300 ${feature.span}`}
+                  className={`bg-slate-900/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-1000 ease-out ${
+                    feature.span
+                  } ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${900 + index * 200}ms` }}
                 >
                   {/* Feature Image */}
                   <div className="relative h-32 md:h-40 lg:h-48">
@@ -122,10 +182,17 @@ export default function WhyUs() {
           {/* Right Column - 4 cols on desktop, 12 cols on mobile */}
           <div className="col-span-12 lg:col-span-4">
             <div className="grid grid-cols-12 gap-6">
-              {rightColumnFeatures.map((feature) => (
+              {rightColumnFeatures.map((feature, index) => (
                 <div
                   key={feature.id}
-                  className={`bg-slate-900/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-300 ${feature.span}`}
+                  className={`bg-slate-900/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-[#01E0D7]/50 transition-all duration-1000 ease-out ${
+                    feature.span
+                  } ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${1500 + index * 200}ms` }}
                 >
                   {/* Feature Image */}
                   <div className="relative h-32 md:h-40 lg:h-48">
