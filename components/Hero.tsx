@@ -23,13 +23,14 @@ export default function Hero() {
       }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
+    const currentRef = heroRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);

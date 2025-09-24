@@ -3,16 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Check,
-  MapPin,
-  Calendar,
-  Clock,
-  Car,
-  Upload,
-  Shield,
-} from "lucide-react";
-import Image from "next/image";
+import { Check, Car, Upload, Shield } from "lucide-react";
 
 export default function CheckoutStep() {
   const [verificationType, setVerificationType] = useState("visitor");
@@ -172,7 +163,7 @@ export default function CheckoutStep() {
                 <div className="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center hover:border-slate-500 transition-colors cursor-pointer">
                   <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-white font-medium mb-1">
-                    Upload Your Driver's License Here
+                    Upload Your Driver&apos;s License Here
                   </p>
                 </div>
               </div>

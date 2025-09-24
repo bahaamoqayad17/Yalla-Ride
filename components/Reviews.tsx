@@ -3,18 +3,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import {
-  Star,
-  MessageCircle,
-  Mail,
-  Phone,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
+import { Star, Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 // Import Swiper styles
 import "swiper/css";
@@ -23,6 +14,7 @@ import "swiper/css/pagination";
 import ReviewIcon from "@/icons/ReviewIcon";
 import Image from "next/image";
 import HelpIcon from "@/icons/HelpIcon";
+import { Button } from "./ui/button";
 
 // Sample review data
 const reviews = [
@@ -95,13 +87,14 @@ export default function Reviews() {
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -234,7 +227,7 @@ export default function Reviews() {
                     </div>
 
                     <p className="text-[#B8C5D6] text-sm leading-relaxed flex-grow">
-                      "{review.review}"
+                      &ldquo;{review.review}&rdquo;
                     </p>
 
                     <div className="flex flex-col gap-1 mt-4">

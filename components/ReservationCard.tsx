@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { Button } from "./ui/button";
 
 interface ReservationCardProps {
   carImage: string;
@@ -39,7 +38,6 @@ export default function ReservationCard({
   protectionItems,
   price,
   duration,
-  daysRemaining,
   bookingStatus = "current",
   onInvoiceClick,
 }: ReservationCardProps) {

@@ -43,7 +43,6 @@ const stepsData: StepCard[] = [
 
 export default function Steps() {
   const [visibleCards, setVisibleCards] = useState<number[]>([1]); // Start with first card visible
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -60,13 +59,14 @@ export default function Steps() {
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -85,15 +85,11 @@ export default function Steps() {
       // When section enters viewport (top <= 0) and exits viewport (bottom <= 0)
       if (sectionTop <= 0 && sectionBottom >= 0) {
         // Calculate progress: 0 when section enters, 1 when section exits
-        const totalScrollableHeight =
-          windowHeight + sectionRef.current.offsetHeight;
         const scrolledHeight = Math.abs(sectionTop);
         const progress = Math.min(
           scrolledHeight / (sectionRef.current.offsetHeight - windowHeight),
           1
         );
-
-        setScrollProgress(progress);
 
         // Show cards based on scroll progress
         // Each card appears at 25% intervals (0%, 25%, 50%, 75%)
