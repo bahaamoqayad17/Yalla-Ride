@@ -17,7 +17,7 @@ export default function CarHeaderIcon() {
           height="48"
           rx="12"
           fill="url(#paint0_linear_150_3413)"
-          shape-rendering="crispEdges"
+          shapeRendering="crispEdges"
         />
         <g opacity="0.6766">
           <rect
@@ -29,7 +29,7 @@ export default function CarHeaderIcon() {
             fill="url(#paint1_radial_150_3413)"
           />
         </g>
-        <g clip-path="url(#clip0_150_3413)">
+        <g clipPath="url(#clip0_150_3413)">
           <path
             d="M59.5278 31.0809H48.4724C48.3549 31.0809 48.2422 31.1276 48.1591 31.2107C48.076 31.2938 48.0294 31.4065 48.0294 31.524C48.0294 31.6415 48.076 31.7542 48.1591 31.8373C48.2422 31.9204 48.3549 31.967 48.4724 31.967H59.5279C59.5861 31.967 59.6437 31.9556 59.6974 31.9333C59.7512 31.911 59.8 31.8784 59.8412 31.8373C59.8823 31.7961 59.9149 31.7473 59.9372 31.6935C59.9595 31.6398 59.9709 31.5821 59.9709 31.524C59.9709 31.4658 59.9594 31.4082 59.9372 31.3544C59.9149 31.3007 59.8823 31.2518 59.8411 31.2107C59.8 31.1695 59.7511 31.1369 59.6974 31.1146C59.6436 31.0924 59.586 31.0809 59.5278 31.0809ZM43.8538 33.0894H42.2164C42.0989 33.0894 41.9862 33.1361 41.9031 33.2192C41.82 33.3023 41.7733 33.415 41.7733 33.5325C41.7733 33.65 41.82 33.7627 41.9031 33.8458C41.9862 33.9289 42.0989 33.9756 42.2164 33.9756H43.8538C44.6629 33.9756 45.3452 34.5292 45.5418 35.2775H42.3299C42.2123 35.2775 42.0997 35.3242 42.0166 35.4073C41.9335 35.4904 41.8868 35.6031 41.8868 35.7206C41.8868 35.8381 41.9335 35.9508 42.0166 36.0339C42.0997 36.117 42.2123 36.1637 42.3299 36.1637H46.0418C46.1593 36.1637 46.272 36.117 46.3551 36.0339C46.4381 35.9508 46.4848 35.8381 46.4848 35.7206C46.4849 34.2697 45.3046 33.0894 43.8538 33.0894ZM64.1465 33.9756H65.7839C65.9014 33.9756 66.0141 33.9289 66.0972 33.8458C66.1802 33.7627 66.2269 33.65 66.2269 33.5325C66.2269 33.415 66.1802 33.3023 66.0972 33.2192C66.0141 33.1361 65.9014 33.0894 65.7839 33.0894H64.1465C62.6957 33.0894 61.5154 34.2697 61.5154 35.7206C61.5154 35.8381 61.562 35.9508 61.6451 36.0339C61.7282 36.117 61.8409 36.1637 61.9584 36.1637H65.6703C65.7878 36.1637 65.9005 36.117 65.9836 36.0339C66.0667 35.9508 66.1134 35.8381 66.1134 35.7206C66.1134 35.6031 66.0667 35.4904 65.9836 35.4073C65.9005 35.3242 65.7878 35.2775 65.6703 35.2775H62.4584C62.655 34.5292 63.3373 33.9756 64.1465 33.9756Z"
             fill="white"
@@ -52,9 +52,9 @@ export default function CarHeaderIcon() {
           width="108"
           height="108"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -88,8 +88,8 @@ export default function CarHeaderIcon() {
           y2="62.3923"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#0022FF" />
-          <stop offset="1" stop-color="#00FFD0" />
+          <stop stopColor="#0022FF" />
+          <stop offset="1" stopColor="#00FFD0" />
         </linearGradient>
         <radialGradient
           id="paint1_radial_150_3413"
@@ -99,8 +99,8 @@ export default function CarHeaderIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(54 50) scale(12 4)"
         >
-          <stop stop-color="#0022FF" stop-opacity="0.2" />
-          <stop offset="1" stop-color="#0022FF" stop-opacity="0" />
+          <stop stopColor="#0022FF" stopOpacity="0.2" />
+          <stop offset="1" stopColor="#0022FF" stopOpacity="0" />
         </radialGradient>
         <clipPath id="clip0_150_3413">
           <rect

@@ -125,7 +125,7 @@ export default function Hero() {
         >
           <div className="relative w-full my-5 md:my-0">
             {/* Car Image with Overlay */}
-            <div className="relative w-full h-30 md:h-92">
+            <div className="relative w-full h-30 md:h-102">
               <Image
                 src="/car.png"
                 alt="Luxury Sports Car"
