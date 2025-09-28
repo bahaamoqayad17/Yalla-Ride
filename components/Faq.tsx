@@ -78,7 +78,7 @@ export default function Faq() {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full py-16 bg-black">
+    <div ref={sectionRef} className="w-full py-16 bg-black" id="FAQ">
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="text-center mb-12">

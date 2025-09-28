@@ -181,12 +181,12 @@ export default function Customer() {
             {/* Header Section */}
             <div className="mb-8 flex justify-between items-center">
               <div>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                <h2 className="text-2xl md:text-5xl font-bold mb-4">
                   <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
                     My Booking
                   </span>
                 </h2>
-                <p className="text-gray-300 text-lg sm:text-xl">
+                <p className="text-gray-300 text-sm md:text-xl">
                   Easily Track And Manage All Your Reservations
                 </p>
               </div>
@@ -195,7 +195,7 @@ export default function Customer() {
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8">
                 {/* Upcoming Filter Dropdown */}
                 <div className="relative">
-                  <select className="bg-slate-800 border border-cyan-400 rounded-lg px-4 py-3 text-white appearance-none cursor-pointer hover:border-cyan-300 transition-colors min-w-[140px]">
+                  <select className="bg-slate-800 border border-cyan-400 rounded-lg md:px-4 px-2 md:py-3 py-2 text-white appearance-none cursor-pointer hover:border-cyan-300 transition-colors min-w-[140px]">
                     <option value="upcoming" className="bg-slate-800">
                       Upcoming
                     </option>

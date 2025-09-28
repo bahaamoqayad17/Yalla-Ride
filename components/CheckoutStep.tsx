@@ -27,7 +27,7 @@ export default function CheckoutStep() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24">
           {/* Left Column - User Input Sections */}
-          <div className="space-y-8">
+          <div className="space-y-8 order-2 md:order-1">
             {/* Personal Info Section */}
             <div>
               <h1 className="font-bold mb-4 text-3xl">
@@ -193,7 +193,7 @@ export default function CheckoutStep() {
           </div>
 
           {/* Right Column - Booking Details */}
-          <div>
+          <div className="order-1 md:order-2">
             <h1 className="font-bold mb-4 text-3xl">
               <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
                 Booking Details

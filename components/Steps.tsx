@@ -92,8 +92,8 @@ export default function Steps() {
         );
 
         // Show cards based on scroll progress
-        // Each card appears at 25% intervals (0%, 25%, 50%, 75%)
-        const cardsToShow = Math.min(Math.floor(progress * 4) + 1, 4);
+        // Each card appears at faster intervals (0%, 15%, 30%, 45%)
+        const cardsToShow = Math.min(Math.floor(progress * 6.67) + 1, 4);
         const newVisibleCards = Array.from(
           { length: cardsToShow },
           (_, i) => i + 1
@@ -112,6 +112,7 @@ export default function Steps() {
   return (
     <section
       ref={sectionRef}
+      id="Steps"
       className="min-h-[400vh] relative"
       style={{
         backgroundImage: "url('/steps.svg')",

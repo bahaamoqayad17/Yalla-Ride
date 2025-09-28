@@ -51,7 +51,9 @@ export default function Navbar() {
                 {navigationItems.map((item, index) => (
                   <a
                     key={index}
-                    href={`/${item.href}`}
+                    href={
+                      item.href.startsWith("#") ? item.href : `/${item.href}`
+                    }
                     className="text-white/90 hover:text-white transition-colors duration-200 text-sm font-medium cursor-pointer"
                   >
                     {item.name}
@@ -96,7 +98,7 @@ export default function Navbar() {
               {navigationItems.map((item, index) => (
                 <a
                   key={index}
-                  href={`${item.href}`}
+                  href={item.href.startsWith("#") ? item.href : `/${item.href}`}
                   className="block px-3 py-2 text-white/90 hover:text-white hover:bg-slate-700/50 rounded-md transition-colors duration-200 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >

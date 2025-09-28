@@ -155,6 +155,7 @@ export default function CarsSection({ showSearch = false }) {
     <div
       ref={sectionRef}
       className="w-full bg-gradient-to-b from-black via-slate-900 to-black pb-86 pt-0 md:py-16"
+      id="Catalog"
     >
       <div className="container mx-auto px-4">
         {/* Header Section */}
@@ -194,58 +195,118 @@ export default function CarsSection({ showSearch = false }) {
 
         {showSearch && <ReservationSearch />}
 
-        {/* Car Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">
-          {carCategories.map((category, index) => (
-            <div
-              key={category.id}
-              className={`relative cursor-pointer transition-all duration-1000 ease-out ${
-                selectedCategory === category.id
-                  ? "transform scale-105"
-                  : "hover:scale-102"
-              } ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              }`}
-              style={{ transitionDelay: `${700 + index * 100}ms` }}
-              onClick={() => setSelectedCategory(category.id)}
-            >
+        {/* Car Categories - Horizontal scroll on mobile, grid on desktop */}
+        <div className="mb-16">
+          {/* Mobile: Horizontal scroll */}
+          <div className="flex gap-4 overflow-x-auto pb-4 md:hidden scrollbar-hide">
+            {carCategories.map((category, index) => (
               <div
-                className={`bg-slate-800/50 rounded-xl p-8 border-2 transition-all duration-300 ${
+                key={category.id}
+                className={`relative cursor-pointer transition-all my-2 duration-1000 ease-out flex-shrink-0 ${
                   selectedCategory === category.id
-                    ? "border-[#01E0D7] shadow-lg shadow-[#01E0D7]/20"
-                    : "border-transparent hover:border-slate-600"
+                    ? "transform scale-105"
+                    : "hover:scale-102"
+                } ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
                 }`}
+                style={{
+                  transitionDelay: `${700 + index * 100}ms`,
+                  width: "140px",
+                }}
+                onClick={() => setSelectedCategory(category.id)}
               >
-                {/* Car Image */}
-                <div className="flex justify-center mb-4">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      width={100}
-                      height={100}
-                      className="object-contain filter brightness-0 invert"
-                    />
+                <div
+                  className={`bg-slate-800/50 rounded-xl p-6 border-2 transition-all duration-300 h-full ${
+                    selectedCategory === category.id
+                      ? "border-[#01E0D7] shadow-lg shadow-[#01E0D7]/20"
+                      : "border-transparent hover:border-slate-600"
+                  }`}
+                >
+                  {/* Car Image */}
+                  <div className="flex justify-center mb-3">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        width={60}
+                        height={60}
+                        className="object-contain filter brightness-0 invert"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Category Info */}
-                <div className="text-center">
-                  <h3 className="text-white text-sm font-medium mb-2">
-                    {category.name}
-                  </h3>
+                  {/* Category Info */}
+                  <div className="text-center">
+                    <h3 className="text-white text-xs font-medium mb-2">
+                      {category.name}
+                    </h3>
 
-                  <div className="bg-slate-900/80 rounded-lg px-3 py-1 inline-block">
-                    <span className="text-white text-xs font-semibold">
-                      {category.count} CARS
-                    </span>
+                    <div className="bg-slate-900/80 rounded-lg px-2 py-1 inline-block">
+                      <span className="text-white text-xs font-semibold">
+                        {category.count} CARS
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* Desktop: Grid layout */}
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            {carCategories.map((category, index) => (
+              <div
+                key={category.id}
+                className={`relative cursor-pointer transition-all duration-1000 ease-out ${
+                  selectedCategory === category.id
+                    ? "transform scale-105"
+                    : "hover:scale-102"
+                } ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                }`}
+                style={{ transitionDelay: `${700 + index * 100}ms` }}
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <div
+                  className={`bg-slate-800/50 rounded-xl p-8 border-2 transition-all duration-300 ${
+                    selectedCategory === category.id
+                      ? "border-[#01E0D7] shadow-lg shadow-[#01E0D7]/20"
+                      : "border-transparent hover:border-slate-600"
+                  }`}
+                >
+                  {/* Car Image */}
+                  <div className="flex justify-center mb-4">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        width={100}
+                        height={100}
+                        className="object-contain filter brightness-0 invert"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category Info */}
+                  <div className="text-center">
+                    <h3 className="text-white text-sm font-medium mb-2">
+                      {category.name}
+                    </h3>
+
+                    <div className="bg-slate-900/80 rounded-lg px-3 py-1 inline-block">
+                      <span className="text-white text-xs font-semibold">
+                        {category.count} CARS
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Cars Grid */}
@@ -258,7 +319,7 @@ export default function CarsSection({ showSearch = false }) {
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0"
               }`}
-              style={{ transitionDelay: `${1300 + index * 150}ms` }}
+              style={{ transitionDelay: `${2000 + index * 150}ms` }}
             >
               <CarCard car={car} />
             </div>

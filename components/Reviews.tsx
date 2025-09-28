@@ -103,12 +103,15 @@ export default function Reviews() {
     <div
       ref={sectionRef}
       className="bg-[#0055FF] text-white py-20 px-4 relative overflow-hidden"
+      id="Reviews"
       style={{
         borderRadius: "40px",
       }}
     >
       <div className="absolute top-8 right-30 hidden md:block">
-        <Image src="/rightWheel.png" alt="Reviews" width={200} height={200} />
+        <div className="animate-float">
+          <Image src="/rightWheel.png" alt="Reviews" width={200} height={200} />
+        </div>
       </div>
       {/* Decorative car wheel elements */}
       {/* <div className="absolute top-10 right-10 w-32 h-32 opacity-20">
@@ -129,7 +132,7 @@ export default function Reviews() {
         </div>
       </div> */}
 
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto">
         {/* Customer Reviews Section */}
         <div className="text-center mb-16">
           <div
@@ -167,13 +170,12 @@ export default function Reviews() {
 
         {/* Reviews Carousel */}
         <div
-          className={`mb-20 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-4 transition-all duration-1000 ease-out delay-700 ${
+          className={`w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] px-4 transition-all duration-1000 ease-out delay-700 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
           }`}
         >
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={20}
             slidesPerView={1}
             loop={true}
             pagination={{
@@ -187,15 +189,12 @@ export default function Reviews() {
             breakpoints={{
               640: {
                 slidesPerView: 2.5,
-                spaceBetween: 20,
               },
               1024: {
                 slidesPerView: 3.5,
-                spaceBetween: 24,
               },
               1280: {
                 slidesPerView: 4.5,
-                spaceBetween: 24,
               },
             }}
             className="mySwiper w-full"
@@ -248,12 +247,22 @@ export default function Reviews() {
           </Swiper>
         </div>
 
-        <div className="mb-20 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] hidden md:block">
-          <Image src="/leftWheel.png" alt="Reviews" width={200} height={200} />
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] hidden md:block">
+          <div className="animate-float-reverse">
+            <Image
+              src="/leftWheel.png"
+              alt="Reviews"
+              width={200}
+              height={200}
+            />
+          </div>
         </div>
 
         {/* Let's Talk Section */}
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div
+          className="grid lg:grid-cols-2 gap-12 items-start w-full mt-10 md:mt-0"
+          id="Contact"
+        >
           {/* Left Side - Contact Info */}
           <div
             className={`transition-all duration-1000 ease-out delay-900 ${

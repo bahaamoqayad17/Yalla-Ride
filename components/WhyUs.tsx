@@ -81,7 +81,11 @@ export default function WhyUs() {
   }, []);
 
   return (
-    <div ref={sectionRef} className="w-full py-16 bg-black pt-90 md:pt-16">
+    <div
+      ref={sectionRef}
+      className="w-full py-16 bg-black pt-90 md:pt-16"
+      id="Feature"
+    >
       <div className="container mx-auto px-4">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12">
@@ -128,11 +132,13 @@ export default function WhyUs() {
               isVisible
                 ? "translate-y-0 opacity-100 scale-100"
                 : "translate-y-8 opacity-0 scale-95"
-            }`}
+            }
+            hidden md:flex
+            `}
           >
             <Button
               variant="outline"
-              className="scale-120 items-center hover:scale-150 transition-transform duration-200"
+              className="scale-120 items-center hover:scale-150 transition-transform duration-200 "
             >
               Rent My Car
             </Button>
@@ -218,6 +224,22 @@ export default function WhyUs() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div
+          className={`flex md:hidden mt-10 justify-center lg:justify-end transition-all duration-1000 ease-out delay-700 ${
+            isVisible
+              ? "translate-y-0 opacity-100 scale-100"
+              : "translate-y-8 opacity-0 scale-95"
+          }
+            `}
+        >
+          <Button
+            variant="outline"
+            className="scale-120 items-center hover:scale-150 transition-transform duration-200 "
+          >
+            Rent My Car
+          </Button>
         </div>
       </div>
     </div>

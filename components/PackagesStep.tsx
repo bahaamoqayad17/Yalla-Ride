@@ -132,7 +132,7 @@ export default function PackagesStep({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24">
           {/* Left Section - Protection Packages & Add-ons */}
-          <div className="space-y-8">
+          <div className="space-y-8 order-2 md:order-1">
             {/* Protection Packages Section */}
             <div>
               <h2 className="text-3xl font-bold mb-4">
@@ -264,7 +264,7 @@ export default function PackagesStep({
 
             {/* Checkout Button */}
             <Button
-              className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold py-4 text-lg rounded-lg"
+              className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold py-8 text-3xl rounded-lg hidden md:block"
               onClick={() => setStep(3)}
             >
               Checkout
@@ -272,7 +272,7 @@ export default function PackagesStep({
           </div>
 
           {/* Right Section - Booking Details */}
-          <div>
+          <div className="order-1 md:order-2">
             <h2 className="text-3xl font-bold mb-4">
               <span className="bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent">
                 Booking Details
@@ -408,6 +408,13 @@ export default function PackagesStep({
             </div>
           </div>
         </div>
+
+        <Button
+          className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 text-white font-semibold text-xl rounded-lg block md:hidden"
+          onClick={() => setStep(3)}
+        >
+          Checkout
+        </Button>
       </div>
     </div>
   );
