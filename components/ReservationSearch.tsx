@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, Clock } from "lucide-react";
 import {
@@ -9,12 +6,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { getLocations } from "@/actions/hq-actions";
 
-export default function ReservationSearch() {
-  const [pickupDate, setPickupDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
-
+export default async function ReservationSearch() {
+  const locations = await getLocations();
+  console.log({ locations });
   return (
     <div className="relative max-w-7xl mx-auto mb-8 px-4 sm:px-6 lg:px-8">
       {/* Gradient Border Container */}
@@ -40,15 +36,15 @@ export default function ReservationSearch() {
                   <div className="flex items-center space-x-2 bg-slate-700/50 rounded-lg p-3 border border-slate-600/50 cursor-pointer min-w-[120px] sm:min-w-[100px]">
                     <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
                     <span className="text-gray-400 text-sm">
-                      {pickupDate ? format(pickupDate, "MMM dd") : "date"}
+                      Pickup Location
                     </span>
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700">
                   <CalendarComponent
                     mode="single"
-                    selected={pickupDate}
-                    onSelect={setPickupDate}
+                    selected={undefined}
+                    onSelect={() => {}}
                     className="bg-slate-800 text-white"
                   />
                 </PopoverContent>
@@ -72,15 +68,15 @@ export default function ReservationSearch() {
                   <div className="flex items-center space-x-2 bg-slate-700/50 rounded-lg p-3 border border-slate-600/50 cursor-pointer min-w-[120px] sm:min-w-[100px]">
                     <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
                     <span className="text-gray-400 text-sm">
-                      {returnDate ? format(returnDate, "MMM dd") : "date"}
+                      Return Location
                     </span>
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700">
                   <CalendarComponent
                     mode="single"
-                    selected={returnDate}
-                    onSelect={setReturnDate}
+                    selected={undefined}
+                    onSelect={() => {}}
                     className="bg-slate-800 text-white"
                   />
                 </PopoverContent>

@@ -5,28 +5,18 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 
-interface CarCardProps {
-  car: {
-    id: number;
-    brand: string;
-    model: string;
-    variant?: string;
-    image: string;
-    transmission: string;
-    horsepower: string;
-    mileage: string;
-    mileageRate?: string;
-    seats: number;
-    colors: string[];
-    paymentInfo: string;
-    price: string;
-    currency?: string;
-    period?: string;
-  };
-}
-
-export default function CarCard({ car }: CarCardProps) {
+export default function CarCard({ car }: { car: any }) {
   const router = useRouter();
+
+  // Extract data from API response
+  const imageUrl = car.images?.[0]?.url || car.public_image_link || "/car.png";
+  const name = car.label_for_website?.en || car.name || "Car";
+  const dailyRate = car.active_rates?.[0]?.daily_rate || "0.00";
+  const seats = car.seats || 5;
+  const transmission = car.transmission_type || "Automatic";
+  const milesPerDay =
+    car.distance_limit_per_day || car.distance_limit || "Unlimited";
+
   return (
     <div
       className="bg-[#00091D] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
@@ -34,12 +24,7 @@ export default function CarCard({ car }: CarCardProps) {
     >
       {/* Car Image Section */}
       <div className="relative h-80 bg-gradient-to-br from-slate-100 to-slate-200">
-        <Image
-          src={car.image}
-          alt={`${car.brand} ${car.model}`}
-          fill
-          className="object-cover"
-        />
+        <Image src={imageUrl} alt={name} fill className="object-cover" />
 
         {/* Optional overlay for night scenes */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -51,17 +36,14 @@ export default function CarCard({ car }: CarCardProps) {
         <div className="flex items-center gap-4 mb-4">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-white text-xs font-bold">BMW</span>
+              <span className="text-white text-xs font-bold">
+                {name.substring(0, 3).toUpperCase()}
+              </span>
             </div>
           </div>
           <div>
-            <h3 className="text-white text-xl font-bold">
-              {car.brand} {car.variant ? car.variant.toUpperCase() : ""}{" "}
-              {car.model}
-            </h3>
-            <p className="text-white/70 text-sm">
-              {car.transmission} • {car.horsepower}
-            </p>
+            <h3 className="text-white text-xl font-bold">{name}</h3>
+            <p className="text-white/70 text-sm">{transmission}</p>
           </div>
         </div>
 
@@ -70,34 +52,31 @@ export default function CarCard({ car }: CarCardProps) {
           {/* Left Side - Specifications */}
           <div className="flex-1 space-y-3">
             {/* Mileage */}
-            <div className="text-white text-sm">
-              <span className="font-medium">{car.mileage}</span>
-              {car.mileageRate && (
-                <span className="text-white/70"> {car.mileageRate}</span>
-              )}
+            <div className="flex items-center gap-2">
+              <span className="text-white/70 text-sm">Mileage : </span>
+              <div className="text-white text-sm">{milesPerDay} km per day</div>
             </div>
 
             {/* Seats */}
-            <div className="text-white text-sm">
-              <span className="font-medium">{car.seats}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-white/70 text-sm">Seats : </span>
+              <div className="text-white text-sm">{seats} Seats</div>
             </div>
 
-            {/* Colors */}
-            <div className="flex items-center gap-2">
-              <span className="text-white text-sm font-medium">Colors:</span>
-              <div className="flex gap-2">
-                {car.colors.map((color, index) => (
-                  <div
-                    key={index}
-                    className="w-4 h-4 rounded-full border border-white/30"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
+            {/* Doors */}
+            {car.doors && (
+              <div className="text-white text-sm">
+                <span className="font-medium">{car.doors} Doors</span>
               </div>
-            </div>
+            )}
 
             {/* Payment Info */}
-            <div className="text-white/70 text-sm">{car.paymentInfo}</div>
+            <div className="flex items-center gap-2">
+              <span className="text-white/70 text-sm">Payment : </span>
+              <div className="text-white text-sm">
+                Pay at pick-up, free cancellation 
+              </div>
+            </div>
           </div>
           <Button
             variant="outline"
@@ -106,8 +85,7 @@ export default function CarCard({ car }: CarCardProps) {
             <div>
               <p className="text-white/70 text-xs mb-1"> start from</p>
               <p className="text-[#01E0D7] text-lg font-bold text-center">
-                {car.currency || "$"}
-                {car.price}/{car.period || "DAY"}
+                {Number(dailyRate)?.toFixed(2)} AED/DAY
               </p>
             </div>
           </Button>

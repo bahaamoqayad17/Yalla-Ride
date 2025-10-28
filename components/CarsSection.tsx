@@ -16,112 +16,16 @@ const carCategories = [
   { id: 6, name: "Economy Cars", count: 14, image: "/category-car.png" },
 ];
 
-const cars = [
-  {
-    id: 1,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#87CEEB", "#D3D3D3"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-  {
-    id: 2,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#000000", "#D3D3D3"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-  {
-    id: 3,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#FFD700", "#D3D3D3"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-  {
-    id: 4,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#000000", "#87CEEB"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-  {
-    id: 5,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#000000", "#FFD700"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-  {
-    id: 6,
-    brand: "BMW",
-    model: "B8 Coupe",
-    variant: "ALPINA",
-    image: "/car-cover.png",
-    transmission: "Automatic",
-    horsepower: "612 hp",
-    mileage: "3,123 km",
-    mileageRate: "+AED 1 / for additional km",
-    seats: 5,
-    colors: ["#FFFFFF", "#D3D3D3"],
-    paymentInfo: "Pay at pick-up, free cancellation",
-    price: "162.000",
-    currency: "$",
-    period: "DAY",
-  },
-];
-
-export default function CarsSection({ showSearch = false }) {
+export default function CarsSection({
+  showSearch = false,
+  cars,
+  locations,
+}: {
+  showSearch: boolean;
+  cars: any;
+  locations: any;
+}) {
+  console.log({ cars });
   const [selectedCategory, setSelectedCategory] = useState(3); // Default to 3rd card as shown in image
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -193,7 +97,7 @@ export default function CarsSection({ showSearch = false }) {
           </p>
         </div>
 
-        {showSearch && <ReservationSearch />}
+        {showSearch && <ReservationSearch locations={locations} />}
 
         {/* Car Categories - Horizontal scroll on mobile, grid on desktop */}
         <div className="mb-16">
@@ -311,7 +215,7 @@ export default function CarsSection({ showSearch = false }) {
 
         {/* Cars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cars.map((car, index) => (
+          {cars?.slice(0, 6).map((car: any, index: number) => (
             <div
               key={car.id}
               className={`transition-all duration-1000 ease-out ${
