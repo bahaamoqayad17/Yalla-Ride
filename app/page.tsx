@@ -5,15 +5,14 @@ import Faq from "@/components/Faq";
 import Reviews from "@/components/Reviews";
 import Steps from "@/components/Steps";
 import Footer from "@/components/Footer";
-import { getCars, getLocations } from "@/actions/hq-actions";
+import { getCars } from "@/actions/hq-actions";
 
 export default async function Home() {
   const cars = await getCars();
-  const locations = await getLocations();
   return (
     <>
       <Hero />
-      <CarsSection cars={cars} locations={locations} />
+      <CarsSection showSearch={false} cars={cars} />
       <Steps />
       <WhyUs />
       <Faq />

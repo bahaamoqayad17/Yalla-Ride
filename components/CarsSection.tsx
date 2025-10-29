@@ -19,16 +19,19 @@ const carCategories = [
 export default function CarsSection({
   showSearch = false,
   cars,
-  locations,
 }: {
   showSearch: boolean;
   cars: any;
-  locations: any;
 }) {
-  console.log({ cars });
   const [selectedCategory, setSelectedCategory] = useState(3); // Default to 3rd card as shown in image
   const [isVisible, setIsVisible] = useState(false);
+  const [showAllCars, setShowAllCars] = useState(false);
+  const [availabilityData, setAvailabilityData] = useState<any>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Use availability data if available, otherwise use all cars
+  const displayCars = availabilityData?.data || availabilityData || cars;
+  const isFiltered = !!availabilityData;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -97,7 +100,14 @@ export default function CarsSection({
           </p>
         </div>
 
-        {showSearch && <ReservationSearch locations={locations} />}
+        {showSearch && (
+          <ReservationSearch
+            onAvailabilityChange={(data) => {
+              setAvailabilityData(data);
+              setShowAllCars(false); // Reset show all when new search
+            }}
+          />
+        )}
 
         {/* Car Categories - Horizontal scroll on mobile, grid on desktop */}
         <div className="mb-16">
@@ -213,36 +223,86 @@ export default function CarsSection({
           </div>
         </div>
 
-        {/* Cars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cars?.slice(0, 6).map((car: any, index: number) => (
-            <div
-              key={car.id}
-              className={`transition-all duration-1000 ease-out ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              }`}
-              style={{ transitionDelay: `${2000 + index * 150}ms` }}
-            >
-              <CarCard car={car} />
+        {/* Search Results Summary */}
+        {isFiltered && (
+          <div className="mb-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h3 className="text-white font-semibold mb-2">
+                  Search Results
+                </h3>
+                <p className="text-white/70 text-sm">
+                  {displayCars?.length || 0} car
+                  {displayCars?.length !== 1 ? "s" : ""} available for your
+                  selected dates and locations
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setAvailabilityData(null);
+                  setShowAllCars(false);
+                }}
+                className="text-white border-slate-600 hover:bg-slate-700"
+              >
+                Clear Search
+              </Button>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
 
-        <div
-          className={`flex justify-center mt-10 transition-all duration-1000 ease-out ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-          }`}
-          style={{ transitionDelay: "2200ms" }}
-        >
-          <Button
-            variant="outline"
-            className="scale-150 items-center hover:scale-180 transition-transform duration-200"
+        {/* Cars Grid */}
+        {displayCars && displayCars.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {(showAllCars || isFiltered
+                ? displayCars
+                : displayCars.slice(0, 6)
+              )?.map((car: any, index: number) => (
+                <div
+                  key={car.id}
+                  className={`transition-all duration-1000 ease-out ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  }`}
+                  style={{ transitionDelay: `${2000 + index * 150}ms` }}
+                >
+                  <CarCard car={car} />
+                </div>
+              ))}
+            </div>
+          </>
+        ) : isFiltered ? (
+          <div className="text-center py-12">
+            <p className="text-white/70 text-lg mb-4">
+              No cars available for your selected criteria
+            </p>
+            <p className="text-white/50 text-sm">
+              Try adjusting your dates or locations
+            </p>
+          </div>
+        ) : null}
+
+        {displayCars && displayCars.length > 6 && (
+          <div
+            className={`flex justify-center mt-10 transition-all duration-1000 ease-out ${
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "2200ms" }}
           >
-            Show All
-          </Button>
-        </div>
+            <Button
+              variant="outline"
+              className="scale-150 items-center hover:scale-180 transition-transform duration-200"
+              onClick={() => setShowAllCars(!showAllCars)}
+            >
+              {showAllCars ? "Show Less" : "Show All"}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
