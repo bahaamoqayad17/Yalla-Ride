@@ -38,8 +38,8 @@ export default function ReviewIcon() {
           y2="52.3923"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4EEED0" />
-          <stop offset="1" stop-color="#5587EB" />
+          <stop stopColor="#4EEED0" />
+          <stop offset="1" stopColor="#5587EB" />
         </linearGradient>
         <radialGradient
           id="paint1_radial_150_4029"
@@ -49,8 +49,8 @@ export default function ReviewIcon() {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(24 40) scale(12 4)"
         >
-          <stop stop-color="#0022FF" stop-opacity="0.2" />
-          <stop offset="1" stop-color="#0022FF" stop-opacity="0" />
+          <stop stopColor="#0022FF" stopOpacity="0.2" />
+          <stop offset="1" stopColor="#0022FF" stopOpacity="0" />
         </radialGradient>
       </defs>
     </svg>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -14,16 +14,13 @@ import {
   Users,
   Zap,
   Timer,
-  MapPin,
-  ChevronDown,
+  Briefcase,
 } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
 import {
   Carousel,
   CarouselContent,
@@ -36,15 +33,28 @@ import CarCard from "@/components/CarCard";
 import ContactUs from "@/components/ContactUs";
 import PackagesStep from "@/components/PackagesStep";
 import CheckoutStep from "@/components/CheckoutStep";
+import BookingDetails from "@/components/BookingDetails";
+import {
+  getApplicableAdditionalCharges,
+  validateDatesAndGetVehicleClasses,
+} from "@/actions/hq-actions";
 
 export default function CarDetails({
   car,
   locations,
   similarCars,
+  additionalCharges,
+  datesConfig,
+  customerFields,
+  paymentMethods,
 }: {
   car: any;
   locations: any;
   similarCars: any;
+  additionalCharges: any;
+  datesConfig?: any;
+  customerFields?: any;
+  paymentMethods?: any[];
 }) {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [returnDate, setReturnDate] = useState<Date>();
@@ -52,11 +62,16 @@ export default function CarDetails({
   const [returnTime, setReturnTime] = useState<string>("02:00");
   const [pickupLocation, setPickupLocation] = useState<any>(null);
   const [returnLocation, setReturnLocation] = useState<any>(null);
-  const [pickupPopoverOpen, setPickupPopoverOpen] = useState(false);
-  const [pickupDatePopoverOpen, setPickupDatePopoverOpen] = useState(false);
-  const [returnPopoverOpen, setReturnPopoverOpen] = useState(false);
-  const [returnDatePopoverOpen, setReturnDatePopoverOpen] = useState(false);
   const [step, setStep] = useState(1);
+
+  // Reservation workflow state
+  const [isValidating, setIsValidating] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [carAvailability, setCarAvailability] = useState<any>(null);
+  const [applicableCharges, setApplicableCharges] = useState<any[]>([]);
+  const [selectedCharges, setSelectedCharges] = useState<string[]>([]);
+  const [priceData, setPriceData] = useState<any>(null);
+  const [customerId, setCustomerId] = useState<number | null>(null);
 
   // Filter locations based on allowed operations
   const pickupLocations = useMemo(
@@ -109,6 +124,136 @@ export default function CarDetails({
     [pickupDate, returnDate]
   );
 
+  // Step 2: Validate dates before allowing navigation to step 2
+  const handleValidateDates = async () => {
+    if (!pickupDate || !returnDate || !pickupLocation || !returnLocation) {
+      setValidationError("Please select all required fields");
+      return false;
+    }
+
+    try {
+      setIsValidating(true);
+      setValidationError(null);
+
+      // Convert time from HH:mm to HH:mm:ss format
+      const pick_up_time = `${pickupTime}:00`;
+      const return_time = `${returnTime}:00`;
+
+      const result = await validateDatesAndGetVehicleClasses({
+        pick_up_location: pickupLocation.id,
+        return_location: returnLocation.id,
+        pick_up_date: format(pickupDate, "yyyy-MM-dd"),
+        pick_up_time,
+        return_date: format(returnDate, "yyyy-MM-dd"),
+        return_time,
+        car_id: car.id,
+      });
+
+      console.log(result);
+
+      if (result?.success && result?.data) {
+        setCarAvailability(result?.data);
+        return true;
+      } else {
+        setValidationError(result?.message || "Failed to validate dates");
+        return false;
+      }
+    } catch (err) {
+      setValidationError("Failed to validate dates");
+      return false;
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  // Fetch applicable charges function
+  const fetchCharges = async () => {
+    try {
+      // Convert time from HH:mm to HH:mm:ss format
+      const pick_up_time = `${pickupTime}:00`;
+      const return_time = `${returnTime}:00`;
+
+      const result = await getApplicableAdditionalCharges({
+        vehicle_class_id: car.id,
+        pick_up_location: pickupLocation.id,
+        return_location: returnLocation.id,
+        pick_up_date: format(pickupDate, "yyyy-MM-dd"),
+        pick_up_time,
+        return_date: format(returnDate, "yyyy-MM-dd"),
+        return_time,
+      });
+
+      console.log("result from charges", result);
+
+      if (result.success && result.data) {
+        const charges = result.data.data.additional_charges || [];
+        setApplicableCharges(charges);
+        return charges;
+      }
+      return null;
+    } catch (err) {
+      console.error("Failed to get charges:", err);
+      return null;
+    }
+  };
+
+  const handleNextStep = async () => {
+    const isValid = await handleValidateDates();
+    if (isValid) {
+      // Fetch additional charges before moving to next step
+      await fetchCharges();
+
+      setStep(2);
+    }
+  };
+
+  // Step 3: Fetch applicable charges when dates are validated (automatic)
+  useEffect(() => {
+    if (carAvailability) {
+      fetchCharges();
+    }
+  }, [
+    carAvailability,
+    car?.id,
+    pickupDate,
+    returnDate,
+    pickupLocation,
+    returnLocation,
+    pickupTime,
+    returnTime,
+  ]);
+
+  // Initialize selectedCharges from pre-selected items in additionalCharges
+  useEffect(() => {
+    if (
+      additionalCharges &&
+      (additionalCharges.insurances || additionalCharges.addOns)
+    ) {
+      const charges: string[] = [];
+
+      // Add pre-selected insurances
+      const selectedInsurances =
+        additionalCharges.insurances
+          ?.filter((pkg: any) => pkg.selected)
+          .map((pkg: any) => pkg.id.toString()) || [];
+
+      // Add pre-selected add-ons
+      const selectedAddOns =
+        additionalCharges.addOns
+          ?.filter((addOn: any) => addOn.selected)
+          .map((addOn: any) => addOn.id.toString()) || [];
+
+      charges.push(...selectedInsurances, ...selectedAddOns);
+
+      if (charges.length > 0 && selectedCharges.length === 0) {
+        setSelectedCharges(charges);
+      }
+    }
+  }, [additionalCharges]);
+
+  // Price calculation is now handled by PackagesStep when user clicks checkout
+  // The price data will be set via onPriceCalculated callback
+
   return (
     <div className="min-h-screen text-white">
       <div className="container mx-auto px-4 py-8">
@@ -141,10 +286,16 @@ export default function CarDetails({
               {/* Book Now Button */}
               <Button
                 className="bg-[#0136FB] hover:bg-[#0136FB]/80 px-8 py-5 text-lg rounded-lg font-semibold"
-                onClick={() => setStep(2)}
+                onClick={handleNextStep}
+                disabled={isValidating}
               >
-                Book Now!
+                {isValidating ? "Validating..." : "Book Now!"}
               </Button>
+              {validationError && (
+                <div className="mt-2 text-red-500 text-sm">
+                  {validationError}
+                </div>
+              )}
             </div>
 
             {/* Car Image Carousel Section */}
@@ -247,7 +398,7 @@ export default function CarDetails({
                         <span className="text-xs font-medium">Seats</span>
                       </div>
                       <p className="text-3xl font-semibold">
-                        {seats || "N/A"}
+                        {seats || "5"}
                         {/* {car.seats} */}
                       </p>
                     </div>
@@ -260,20 +411,22 @@ export default function CarDetails({
                         <span className="text-xs font-medium">Doors</span>
                       </div>
                       <p className="text-3xl font-semibold">
-                        {doors || "N/A"}
+                        {doors || "4"}
                         {/* {car.doors} */}
                       </p>
                     </div>
                   </div>
 
                   <div className="bg-[#00091D] rounded-lg p-4 flex items-center gap-4 justify-center">
-                    <Zap className="w-8 h-8 text-[#01E0D7]" />
+                    <Briefcase className="w-8 h-8 text-[#01E0D7]" />
                     <div className="flex flex-col gap-2 items-center">
                       {/* Horse power - Not available in API */}
-                      {/* <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
-                        <span className="text-xs font-medium">Horse power</span>
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Bags</span>
                       </div>
-                      <p className="text-3xl font-semibold">{car.horsepower}</p> */}
+                      <p className="text-3xl font-semibold">
+                        {car.bags || "2"}
+                      </p>
                     </div>
                   </div>
 
@@ -281,19 +434,17 @@ export default function CarDetails({
                     <Timer className="w-8 h-8 text-[#01E0D7]" />
                     <div className="flex flex-col gap-2 items-center">
                       {/* Acceleration - Not available in API */}
-                      {/* <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
-                        <span className="text-xs font-medium">0-100 km/h</span>
+                      <div className="py-1 px-4 rounded-2xl border border-[#0136FB]/30">
+                        <span className="text-xs font-medium">Mileage</span>
                       </div>
-                      <p className="text-3xl font-semibold">
-                        {car.acceleration}s
-                      </p> */}
+                      <p className="text-3xl font-semibold">unlimited</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Loyalty Cashback Sections */}
                 {/* <div className="space-y-4"> */}
-                <div className="flex bg-[#00091D] p-6 rounded-lg gap-4 mb-4 flex-1 w-full">
+                {/* <div className="flex bg-[#00091D] p-6 rounded-lg gap-4 mb-4 flex-1 w-full">
                   <CheckCircle className="w-6 h-6 text-[#01E0D7] flex-shrink-0" />
                   <div className="flex justify-between">
                     <div className="flex flex-col gap-2">
@@ -329,292 +480,36 @@ export default function CarDetails({
                       Included
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
               {/* </div> */}
 
               {/* Right Column - Booking Details */}
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-[#0136FB] to-[#01E0D7] bg-clip-text text-transparent mb-6">
-                  Booking Details
-                </h2>
-
-                {/* Pickup and Return Fields - 2x2 Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  {/* Row 1 */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Pickup
-                    </label>
-                    <Popover
-                      open={pickupPopoverOpen}
-                      onOpenChange={setPickupPopoverOpen}
-                    >
-                      <PopoverTrigger asChild>
-                        <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3 cursor-pointer hover:border-slate-500 transition-colors">
-                          <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                          <span className="text-white text-sm flex-1 text-left truncate">
-                            {pickupLocation?.label_for_website_translated ||
-                              pickupLocation?.name ||
-                              "location"}
-                          </span>
-                          <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700 max-h-[300px] overflow-y-auto min-w-[200px]">
-                        <div className="p-2">
-                          {pickupLocations.length === 0 ? (
-                            <div className="text-white/70 text-sm p-2">
-                              No pickup locations available
-                            </div>
-                          ) : (
-                            pickupLocations.map((location: any) => (
-                              <div
-                                key={location.id}
-                                onClick={() => {
-                                  setPickupLocation(location);
-                                  setPickupPopoverOpen(false);
-                                }}
-                                className={`text-white text-sm p-2 rounded cursor-pointer hover:bg-slate-700 transition-colors ${
-                                  pickupLocation?.id === location.id
-                                    ? "bg-slate-700"
-                                    : ""
-                                }`}
-                              >
-                                {location.label_for_website_translated ||
-                                  location.name}
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      date
-                    </label>
-                    <Popover
-                      open={pickupDatePopoverOpen}
-                      onOpenChange={setPickupDatePopoverOpen}
-                    >
-                      <PopoverTrigger asChild>
-                        <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3 cursor-pointer hover:border-slate-500 transition-colors">
-                          <Calendar className="w-5 h-5 text-gray-400" />
-                          <span className="text-white text-sm">
-                            {pickupDate ? format(pickupDate, "MMM dd") : "date"}
-                          </span>
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700">
-                        <CalendarComponent
-                          mode="single"
-                          selected={pickupDate}
-                          onSelect={(date) => {
-                            setPickupDate(date);
-                            setPickupDatePopoverOpen(false);
-                          }}
-                          className="bg-slate-800 text-white"
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <div className="flex items-center space-x-2 mt-2 bg-slate-800 border border-slate-600 rounded-lg p-2">
-                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <Input
-                        type="time"
-                        value={pickupTime}
-                        onChange={(e) => setPickupTime(e.target.value)}
-                        className="bg-transparent border-0 text-gray-300 text-sm p-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:brightness-0 [&::-webkit-calendar-picker-indicator]:contrast-100"
-                        step="900"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Row 2 */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Return
-                    </label>
-                    <Popover
-                      open={returnPopoverOpen}
-                      onOpenChange={setReturnPopoverOpen}
-                    >
-                      <PopoverTrigger asChild>
-                        <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3 cursor-pointer hover:border-slate-500 transition-colors">
-                          <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                          <span className="text-white text-sm flex-1 text-left truncate">
-                            {returnLocation?.label_for_website_translated ||
-                              returnLocation?.name ||
-                              "location"}
-                          </span>
-                          <ChevronDown className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700 max-h-[300px] overflow-y-auto min-w-[200px]">
-                        <div className="p-2">
-                          {returnLocations.length === 0 ? (
-                            <div className="text-white/70 text-sm p-2">
-                              No return locations available
-                            </div>
-                          ) : (
-                            returnLocations.map((location: any) => (
-                              <div
-                                key={location.id}
-                                onClick={() => {
-                                  setReturnLocation(location);
-                                  setReturnPopoverOpen(false);
-                                }}
-                                className={`text-white text-sm p-2 rounded cursor-pointer hover:bg-slate-700 transition-colors ${
-                                  returnLocation?.id === location.id
-                                    ? "bg-slate-700"
-                                    : ""
-                                }`}
-                              >
-                                {location.label_for_website_translated ||
-                                  location.name}
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      date
-                    </label>
-                    <Popover
-                      open={returnDatePopoverOpen}
-                      onOpenChange={setReturnDatePopoverOpen}
-                    >
-                      <PopoverTrigger asChild>
-                        <div className="flex items-center space-x-2 bg-slate-800 border border-slate-600 rounded-lg p-3 cursor-pointer hover:border-slate-500 transition-colors">
-                          <Calendar className="w-5 h-5 text-gray-400" />
-                          <span className="text-white text-sm">
-                            {returnDate ? format(returnDate, "MMM dd") : "date"}
-                          </span>
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-slate-800 border-slate-700">
-                        <CalendarComponent
-                          mode="single"
-                          selected={returnDate}
-                          onSelect={(date) => {
-                            setReturnDate(date);
-                            setReturnDatePopoverOpen(false);
-                          }}
-                          className="bg-slate-800 text-white"
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <div className="flex items-center space-x-2 mt-2 bg-slate-800 border border-slate-600 rounded-lg p-2">
-                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <Input
-                        type="time"
-                        value={returnTime}
-                        onChange={(e) => setReturnTime(e.target.value)}
-                        className="bg-transparent border-0 text-gray-300 text-sm p-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:brightness-0 [&::-webkit-calendar-picker-indicator]:contrast-100"
-                        step="900"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Information Box */}
-                <div className="bg-[#0136FB]/20 border border-[#0136FB]/30 rounded-lg p-4 mb-6">
-                  <div className="flex items-start">
-                    <Info className="w-5 h-5 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                    <p className="text-sm text-gray-300">
-                      enter your details here to continue your booking
-                    </p>
-                  </div>
-                </div>
-
-                {/* Included Items */}
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                      <p className="text-white text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                      </p>
-                    </div>
-                    <span className="text-[#01E0D7] text-sm font-medium ml-4">
-                      included
-                    </span>
-                  </div>
-
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                      <p className="text-white text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                      </p>
-                    </div>
-                    <span className="text-[#01E0D7] text-sm font-medium ml-4">
-                      included
-                    </span>
-                  </div>
-                </div>
-
-                {/* Separator Line */}
-                <div className="border-t border-slate-600 mb-6"></div>
-
-                {/* Total Amount */}
-                <div className="mb-6">
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-medium">Total Amount</span>
-                    <span className="text-2xl font-bold text-[#01E0D7]">
-                      {totalAmount > 0
-                        ? `AED ${totalAmount.toFixed(2)}`
-                        : "AED 0.00"}
-                      {/* 4350$ */}
-                    </span>
-                  </div>
-                  {numberOfDays > 0 && (
-                    <p className="text-sm text-gray-400 mt-2 text-right">
-                      {numberOfDays} day{numberOfDays !== 1 ? "s" : ""} × AED{" "}
-                      {Number(dailyRate).toFixed(2)}/day
-                    </p>
-                  )}
-                </div>
-
-                {/* Next Step Button */}
-                <Button
-                  className="w-full bg-[#0136FB] hover:bg-[#0136FB]/80 py-8 text-2xl rounded-lg font-semibold mb-4"
-                  onClick={() => setStep(2)}
-                >
-                  Next Step
-                </Button>
-
-                {/* Booking Summary */}
-                {pickupDate && returnDate && numberOfDays > 0 && (
-                  <div className="bg-slate-800/50 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <Info className="w-5 h-5 text-[#01E0D7] mr-3 mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="text-sm text-gray-300">
-                          You have booked for{" "}
-                          <span className="text-[#01E0D7] font-medium">
-                            {numberOfDays} day{numberOfDays !== 1 ? "s" : ""}
-                          </span>
-                          , from {format(pickupDate, "EEEE, MMMM dd")} until{" "}
-                          {format(returnDate, "MMMM dd")}{" "}
-                          <button className="text-[#01E0D7] text-sm font-medium hover:underline">
-                            edit
-                          </button>
-                        </p>
-                        {/* You have booked for{" "}
-                        <span className="text-[#01E0D7] font-medium">
-                          21 days
-                        </span>
-                        , from Wednesday, January 12 until February 1{" "} */}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <BookingDetails
+                  mode="editable"
+                  pickupLocation={pickupLocation}
+                  returnLocation={returnLocation}
+                  pickupLocations={pickupLocations}
+                  returnLocations={returnLocations}
+                  pickupDate={pickupDate}
+                  returnDate={returnDate}
+                  pickupTime={pickupTime}
+                  returnTime={returnTime}
+                  totalAmount={totalAmount}
+                  numberOfDays={numberOfDays}
+                  dailyRate={dailyRate}
+                  onPickupLocationChange={setPickupLocation}
+                  onReturnLocationChange={setReturnLocation}
+                  onPickupDateChange={setPickupDate}
+                  onReturnDateChange={setReturnDate}
+                  onPickupTimeChange={setPickupTime}
+                  onReturnTimeChange={setReturnTime}
+                  showInfoBox={true}
+                  showNextStepButton={true}
+                  onNextStep={handleNextStep}
+                  variant="compact"
+                />
               </div>
             </div>
 
@@ -637,12 +532,50 @@ export default function CarDetails({
 
         {step === 2 && (
           <>
-            <PackagesStep setStep={setStep} />
+            <PackagesStep
+              setStep={setStep}
+              additionalCharges={applicableCharges}
+              bookingData={{
+                pickupLocation,
+                returnLocation,
+                pickupDate,
+                returnDate,
+                pickupTime,
+                returnTime,
+                totalAmount,
+                numberOfDays,
+                dailyRate,
+              }}
+              onChargesSelected={setSelectedCharges}
+              car={car}
+              onPriceCalculated={(priceData) => {
+                // Set the full price data from server action response
+                setPriceData(priceData);
+              }}
+            />
           </>
         )}
         {step === 3 && (
           <>
-            <CheckoutStep />
+            <CheckoutStep
+              bookingData={{
+                pickupLocation,
+                returnLocation,
+                pickupDate,
+                returnDate,
+                pickupTime,
+                returnTime,
+                totalAmount,
+                numberOfDays,
+                dailyRate,
+              }}
+              customerFields={customerFields}
+              paymentMethods={paymentMethods || []}
+              car={car}
+              selectedCharges={selectedCharges}
+              priceData={priceData}
+              onCustomerCreated={setCustomerId}
+            />
           </>
         )}
 

@@ -109,9 +109,7 @@ export default function CarsSection({
           />
         )}
 
-        {/* Car Categories - Horizontal scroll on mobile, grid on desktop */}
-        <div className="mb-16">
-          {/* Mobile: Horizontal scroll */}
+        {/* <div className="mb-16">
           <div className="flex gap-4 overflow-x-auto pb-4 md:hidden scrollbar-hide">
             {carCategories.map((category, index) => (
               <div
@@ -138,7 +136,6 @@ export default function CarsSection({
                       : "border-transparent hover:border-slate-600"
                   }`}
                 >
-                  {/* Car Image */}
                   <div className="flex justify-center mb-3">
                     <div className="flex items-center justify-center">
                       <Image
@@ -151,7 +148,6 @@ export default function CarsSection({
                     </div>
                   </div>
 
-                  {/* Category Info */}
                   <div className="text-center">
                     <h3 className="text-white text-xs font-medium mb-2">
                       {category.name}
@@ -168,7 +164,6 @@ export default function CarsSection({
             ))}
           </div>
 
-          {/* Desktop: Grid layout */}
           <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {carCategories.map((category, index) => (
               <div
@@ -192,7 +187,6 @@ export default function CarsSection({
                       : "border-transparent hover:border-slate-600"
                   }`}
                 >
-                  {/* Car Image */}
                   <div className="flex justify-center mb-4">
                     <div className="flex items-center justify-center">
                       <Image
@@ -205,7 +199,6 @@ export default function CarsSection({
                     </div>
                   </div>
 
-                  {/* Category Info */}
                   <div className="text-center">
                     <h3 className="text-white text-sm font-medium mb-2">
                       {category.name}
@@ -221,9 +214,8 @@ export default function CarsSection({
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        {/* Search Results Summary */}
         {isFiltered && (
           <div className="mb-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
             <div className="flex items-center justify-between flex-wrap gap-4">

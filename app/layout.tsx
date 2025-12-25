@@ -46,6 +46,9 @@ const myFont = localFont({
 export const metadata: Metadata = {
   title: "Yalla Ride",
   description: "Yalla Ride",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

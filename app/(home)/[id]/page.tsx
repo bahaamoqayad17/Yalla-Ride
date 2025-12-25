@@ -1,6 +1,14 @@
 import { Button } from "@/components/ui/button";
 import Client from "./client";
-import { getCarById, getLocations, getCars } from "@/actions/hq-actions";
+import {
+  getCarById,
+  getLocations,
+  getCars,
+  getAdditionalCharges,
+  getReservationDatesConfig,
+  getCustomerFields,
+  getPaymentMethods,
+} from "@/actions/hq-actions";
 import Link from "next/link";
 
 export default async function CarDetails({
@@ -60,6 +68,24 @@ export default async function CarDetails({
 
   const similarCars = findSimilarCars();
 
+  const additionalCharges = await getAdditionalCharges();
+
+  // Fetch reservation workflow data
+  const datesConfigResult = await getReservationDatesConfig();
+  const datesConfig = datesConfigResult.success ? datesConfigResult.data : null;
+
+  const customerFieldsResult = await getCustomerFields();
+  const customerFields = customerFieldsResult.success
+    ? customerFieldsResult.data
+    : null;
+
+  const paymentMethodsResult = await getPaymentMethods();
+  const paymentMethods = paymentMethodsResult.success
+    ? paymentMethodsResult.data
+    : [];
+
+  console.log(additionalCharges);
+
   if (!car) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -75,5 +101,15 @@ export default async function CarDetails({
     );
   }
 
-  return <Client car={car} locations={locations} similarCars={similarCars} />;
+  return (
+    <Client
+      car={car}
+      locations={locations}
+      similarCars={similarCars}
+      additionalCharges={additionalCharges}
+      datesConfig={datesConfig}
+      customerFields={customerFields}
+      paymentMethods={paymentMethods}
+    />
+  );
 }
